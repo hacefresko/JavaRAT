@@ -15,17 +15,19 @@ public class Main {
 		do {
 			server.connect();
 			
-			while(true) {
+			while(!server.isClosed()) {
 				try {
 					System.out.print("> ");
 					server.send(in.nextLine());
 				}catch(IOException e){
+					server.end();
 					System.out.println("Connection interrupted :/");
-					break;
 				}
 			}
-			System.out.print("Connect? [yes/no] > ");
+			
+			System.out.print("Try to reconnect? [yes/no] > ");
 			op = in.nextLine();
+			
 		}while(op.equals("yes"));
 	}
 }
