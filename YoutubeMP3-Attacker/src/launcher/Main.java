@@ -10,12 +10,11 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		Server server = new Server(5123);
 		Scanner in = new Scanner(System.in);
-		String op;
 		
-		do {
+		while(true) {
 			server.connect();
 			
-			while(!server.isClosed()) {
+			while(!server.connectionIsClosed()) {
 				try {
 					System.out.print("> ");
 					server.send(in.nextLine());
@@ -24,10 +23,6 @@ public class Main {
 					System.out.println("Connection interrupted :/");
 				}
 			}
-			
-			System.out.print("Try to reconnect? [yes/no] > ");
-			op = in.nextLine();
-			
-		}while(op.equals("yes"));
+		}
 	}
 }

