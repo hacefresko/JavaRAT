@@ -14,7 +14,7 @@ public class Main {
 		while(true) {
 			server.connect();
 			
-			while(!server.connectionIsClosed()) {
+			do {
 				try {
 					System.out.print("> ");
 					server.send(in.nextLine());
@@ -22,7 +22,7 @@ public class Main {
 					server.end();
 					System.out.println("Connection interrupted :/");
 				}
-			}
+			} while(!server.connectionIsClosed());
 		}
 	}
 }

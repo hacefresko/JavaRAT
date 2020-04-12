@@ -9,6 +9,7 @@ import java.net.Socket;
 
 public class Server {
 	private Socket s;
+	private ServerSocket ss;
 	private DataOutputStream dout;
 	private DataInputStream din;
 	
@@ -19,7 +20,7 @@ public class Server {
 	}
 
 	public void connect() throws IOException {
-		ServerSocket ss = new ServerSocket(_port);
+		ss = new ServerSocket(_port);
 		System.out.println("Waiting for connection on port " + _port + "...");
 		s = ss.accept();
 		System.gc(); //Calls the garbage collector because of the previous function
@@ -48,6 +49,7 @@ public class Server {
 
 	public void end() throws IOException {
 		s.close();
+		ss.close();
 	}
 	
 	public boolean connectionIsClosed() {
