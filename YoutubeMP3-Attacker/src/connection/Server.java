@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-
 public class Server {
 	private ServerSocket ss;
 	private DataOutputStream dout;
@@ -20,23 +19,13 @@ public class Server {
 
 	public void connect() throws IOException {
 		ss = new ServerSocket(_port);
-		System.out.println("Waiting for connection on port " + _port + "...");
+		System.out.println("Waiting for connection...");
 		Socket s = ss.accept();
 		System.gc(); //Calls the garbage collector because of the previous function
+		System.out.println("Connected");
 		
-		dout = new DataOutputStream(s.getOutputStream());
-		din = new DataInputStream(s.getInputStream());
-		
-		dout.writeUTF(" ipconfig | Select-String -Pattern Wi-Fi -Context 0,4");
-		dout.flush();
-		String ip = din.readUTF();
-		String[] aux = ip.split("IPv4");
-		ip = aux[1];
-		aux = ip.split(":");
-		ip = aux[1];
-		ip.replace("\n", "");
-		
-		System.out.println("Connected to" + ip);
+		dout = new DataOutputStream(s.getOutputStream());   
+		din = new DataInputStream(s.getInputStream());  
 	}
 	
 	public void send(String str) throws IOException {

@@ -8,7 +8,7 @@ import connection.Server;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-		Server server = new Server(5123);
+		Server server = new Server(1234);
 		Scanner in = new Scanner(System.in);
 		String op;
 		
