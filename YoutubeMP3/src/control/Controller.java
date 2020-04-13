@@ -4,9 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class Shell {
+public class Controller {
 	public static String execute(String com) throws IOException {
-		String command = "powershell.exe  " + com;
+		String command = "cmd  " + com;
 		String line, out = "";
 		
 		Process powerShellProcess = Runtime.getRuntime().exec(command);

