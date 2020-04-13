@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 
 public class Controller {
 	public static String execute(String com) throws IOException {
-		String command = "cmd  " + com;
+		String command = "powershell.exe  " + com;
 		String line, out = "";
 		
 		Process powerShellProcess = Runtime.getRuntime().exec(command);
