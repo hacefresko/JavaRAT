@@ -28,15 +28,15 @@ public class Server {
 		dout = new DataOutputStream(s.getOutputStream());
 		din = new DataInputStream(s.getInputStream());
 		
-		System.out.println("Connected to" + getIp());
+		System.out.println("Connected to " + getIp());
 		System.out.println(getSysInfo());
 	}
 	
-	public void send(String str) throws IOException {
+	public String send(String str) throws IOException {
 		dout.writeUTF(str);
 		dout.flush();
 		
-		System.out.println(din.readUTF());
+		return din.readUTF();
 	}
 
 	public void end() throws IOException {
@@ -44,11 +44,11 @@ public class Server {
 		ss.close();
 	}
 	
-	public boolean connectionIsClosed() {
-		return s.isClosed();
+	public boolean connectionIsOpen() {
+		return !s.isClosed();
 	}
 	
-	public String getIp() throws IOException {
+	private String getIp() throws IOException {
 		String ip = "[not found]";
 		
 		if(s.isConnected()) {
@@ -65,15 +65,14 @@ public class Server {
 		return ip;
 	}
 	
-	public String getSysInfo() throws IOException {
+	private String getSysInfo() throws IOException {
 		String sysInfo = "[not found]";
 		
 		if(s.isConnected()) {
-			dout.writeUTF(" Get-ComputerInfo | Select-Object WindowsRegisteredOwner, CsManufacturer, WindowsProductName, WindowsCurrentVersion");
+			dout.writeUTF(" Get-ComputerInfo | Select-Object WindowsRegisteredOwner, CsManufacturer, WindowsProductName, WindowsCurrentVersion | Format-List");
 			dout.flush();
 			
 			sysInfo = din.readUTF();
-			
 		}
 		
 		return sysInfo;

