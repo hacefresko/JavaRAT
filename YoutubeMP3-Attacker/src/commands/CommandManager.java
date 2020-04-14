@@ -1,7 +1,6 @@
 package commands;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 import connection.Server;
 
@@ -22,17 +21,13 @@ public class CommandManager {
 		}
 	}
 	
-	protected static void help(Server server) throws IOException {
-		Scanner in = new Scanner(System.in);
+	protected static String help() {
+		String helpMessage = "";
 		
-		System.out.println("\nAvailable commands:\n");
 		for(Command c : commands) {
-			System.out.println("   [" + c._commandName + "]: " + c._help);
+			helpMessage += c.getHelp();
 		}
-		System.out.println("\nDisplay PowerShell help message? [yes/no]");
-		String op = in.nextLine();
-		if(op.equals("yes")) {
-			System.out.println(server.send("help"));
-		}
+		
+		return helpMessage;
 	}
 }

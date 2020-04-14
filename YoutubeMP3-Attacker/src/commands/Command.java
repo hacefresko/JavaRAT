@@ -18,4 +18,8 @@ public abstract class Command {
 	protected boolean parse(String command) {
 		return _commandName.equals(command);
 	}
+	
+	protected String getHelp() {
+		return "   [" + _commandName + "]: " + _help;
+	}
 }
