@@ -20,6 +20,6 @@ public abstract class Command {
 	}
 	
 	protected String getHelp() {
-		return "   [" + _commandName + "]: " + _help;
+		return "   [" + _commandName + "]: " + _help + "\n";
 	}
 }

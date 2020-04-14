@@ -61,7 +61,10 @@ public class ClientSide {
 		System.gc(); //Calls the garbage collector because of the previous function
 		dout = new DataOutputStream(s.getOutputStream());
 		din = new DataInputStream(s.getInputStream());
+		dout.writeUTF("Setting up PowerShell session...");
+		dout.flush();
 		powerShell = PowerShell.openSession();
+		powerShell.executeCommand("Set-ExecutionPolicy Unrestricted -Scope Process");
 	}
 	
 	private boolean initConnection() {
