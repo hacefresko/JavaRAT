@@ -11,7 +11,6 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.nar
 *.ear
@@ -23,7 +22,9 @@
 hs_err_pid*
 /.metadata/
 YoutubeMP3-Attacker/.classpath
+YoutubeMP3-Attacker/bin
 *.prefs
 YoutubeMP3-Attacker/.project
 YoutubeMP3/.classpath
 YoutubeMP3/.project
+YoutubeMP3/bin
