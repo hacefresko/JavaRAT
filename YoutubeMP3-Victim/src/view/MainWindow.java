@@ -20,7 +20,7 @@ public class MainWindow extends JFrame{
 		
 		JPanel imagePanel = new JPanel();
 		imagePanel.setBackground(Color.WHITE);
-		imagePanel.add(new JLabel(new ImageIcon("resources/internal/binaries/images/youtubeMP3.png")));
+		imagePanel.add(new JLabel(new ImageIcon("youtubeMP3.png")));
 		mainPanel.add(imagePanel, BorderLayout.PAGE_START);
 		
 		JPanel centerPanel = new JPanel();
