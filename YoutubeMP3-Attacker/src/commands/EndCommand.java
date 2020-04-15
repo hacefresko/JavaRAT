@@ -7,7 +7,7 @@ import connection.Server;
 public class EndCommand extends Command{
 
 	public EndCommand() {
-		super("end connection", "Ends the connection with the victim");
+		super("endcon", "Ends the connection with the victim");
 	}
 
 	@Override

@@ -9,7 +9,7 @@ public class CommandManager {
 	
 	public static void parseCommand(String command, Server server) throws IOException {
 		boolean parsed = false;
-		
+
 		for(Command c : commands) {
 			if(c.parse(command)) {
 				c.execute(server);

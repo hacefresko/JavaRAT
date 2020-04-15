@@ -33,7 +33,7 @@ public class ClientSide {
 			try {
 				received = din.readUTF();
 				received = received.trim();
-				if (received.contains("end connection")) {
+				if (received.contains("endcon")) {
 					dout.writeUTF("Bye :(\n\n");
 					dout.flush();
 					s.close();
