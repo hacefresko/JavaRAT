@@ -28,7 +28,7 @@ public class SendCommand extends Command{
 		String destFile;
 		
 		//Compress the file
-		if(_file.contains("[.]")) {
+		if(_file.contains(".")) {
 			destFile = _file.split("[.]")[0];
 		}
 		else {
