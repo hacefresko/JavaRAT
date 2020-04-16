@@ -3,7 +3,6 @@ package launcher;
 import java.io.IOException;
 import java.util.Scanner;
 
-import commands.CommandManager;
 import connection.Server;
 
 public class Main {
@@ -21,11 +20,10 @@ public class Main {
 			while(server.connectionIsOpen()) {
 				try {
 					System.out.print("\n\n> ");
-					command = in.nextLine();
-					CommandManager.parseCommand(command, server);
+					System.out.println(server.send(in.nextLine()));
 				}catch(IOException e){
 					server.end();
-					System.out.println("Connection interrupted :/ \n");
+					System.out.println("\nConnection interrupted :/ \n");
 				}
 			}
 		}

@@ -2,7 +2,7 @@ package commands;
 
 import java.io.IOException;
 
-import connection.Server;
+import control.Controller;
 
 public class EndCommand extends Command{
 
@@ -11,8 +11,8 @@ public class EndCommand extends Command{
 	}
 
 	@Override
-	public void execute(Server server) throws IOException {
-		System.out.println(server.send(_commandName));
-		server.end();
+	public void execute(Controller ctrl) throws IOException {
+		ctrl.sendMsg("Bye :(\n\n");
+		ctrl.endConnection();
 	}
 }
