@@ -25,20 +25,18 @@ public class SendCommand extends Command{
 
 	@Override
 	public void execute(Server server) throws IOException {
-		String destFile;
+		String fullPath;
 		
-		//Compress the file
-		if(_file.contains(".")) {
-			destFile = _file.split("[.]")[0];
-		}
-		else {
-			destFile = _file;
-		}
-		destFile += ".zip";
-		System.out.println("Compressing " + _file + " to " + destFile + " ...");
-		server.send("Compress-Archive -Path " + _file + " -CompressionLevel Optimal -DestinationPath " + destFile);
+		System.out.println("Compressing " + _file + " ...");
 		
-		//Send the file
+		//Locate file (PowerShell)
+		fullPath = server.send("Get-Item " + _file + " | Select-Object FullName | Format-List").split(" ")[2];
+		
+		
+		//Compress file (java)
+		
+		//Send file (java)
+	
 		
 	}
 
