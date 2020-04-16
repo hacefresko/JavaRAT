@@ -13,6 +13,8 @@ public class Main {
 		Scanner in = new Scanner(System.in);
 		String command;
 		
+		System.out.println(asciiArt());
+		
 		while(true) {
 			server.connect();
 			
@@ -27,5 +29,23 @@ public class Main {
 				}
 			}
 		}
+	}
+	
+	private static String asciiArt() {
+		String ascii = "\n";
+		
+		ascii += "   /|\n";
+		ascii += "  / |\n";
+		ascii += " /__|______\n";
+		ascii += "|  __  __  |\n";
+		ascii += "| |  ||  | |\n";
+		ascii += "| |__||__| |\n";
+		ascii += "|  __  __()|\n"; 
+		ascii += "| |  ||  | | If it's already open... \n";
+		ascii += "| |  ||  | |\n";
+		ascii += "| |__||__| |  GitHub: @hacefresko \n";
+		ascii += "|__________|\n";
+	
+		return ascii;
 	}
 }
