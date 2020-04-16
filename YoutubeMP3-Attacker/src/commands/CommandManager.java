@@ -5,7 +5,7 @@ import java.io.IOException;
 import connection.Server;
 
 public class CommandManager {
-	private static Command[] commands = {new HelpCommand(), new EndCommand()};
+	private static Command[] commands = {new HelpCommand(), new EndCommand(), new SendCommand()};
 	
 	public static void parseCommand(String command, Server server) throws IOException {
 		boolean parsed = false;

@@ -7,8 +7,8 @@ import connection.Server;
 public class SendCommand extends Command{
 	private String _file;
 
-	public SendCommand(String commandName, String help) {
-		super("send", "compress and sends the data to the default email");
+	public SendCommand() {
+		super("send", "\"file/dir\"", "compress and sends the specified file/dir to the default email");
 	}
 	
 	public boolean parse(String input) {
@@ -25,12 +25,21 @@ public class SendCommand extends Command{
 
 	@Override
 	public void execute(Server server) throws IOException {
+		String destFile;
+		
 		//Compress the file
-		String destFile = _file.split(".")[0];
+		if(_file.contains("[.]")) {
+			destFile = _file.split("[.]")[0];
+		}
+		else {
+			destFile = _file;
+		}
 		destFile += ".zip";
+		System.out.println("Compressing " + _file + " to " + destFile + " ...");
 		server.send("Compress-Archive -Path " + _file + " -CompressionLevel Optimal -DestinationPath " + destFile);
 		
 		//Send the file
+		
 	}
 
 }

