@@ -2,18 +2,20 @@ package commands;
 
 import java.io.IOException;
 
-import control.Controller;
+import connection.Server;
 
 public abstract class Command {
 	protected String _commandName;
 	protected String _argument;
 	protected String _help;
 	
-	public Command(String commandName) {
+	public Command(String commandName, String argument, String help) {
 		_commandName = commandName;
+		_argument = argument;
+		_help = help;
 	}
 	
-	public abstract void execute(Controller ctrl) throws IOException;
+	public abstract void execute(Server server) throws IOException;
 
 	protected boolean parse(String command) {
 		return _commandName.equals(command);

@@ -24,13 +24,13 @@ public class Server {
 		System.out.println("Waiting for connection on port " + _port + "...");
 		s = ss.accept();
 		System.gc(); //Calls the garbage collector because of the previous function
+		System.out.println("Connected");
+		System.out.println("Setting up PowerShell session...");
 		
 		dout = new DataOutputStream(s.getOutputStream());
 		din = new DataInputStream(s.getInputStream());
-		
-		System.out.println("Connected");
-		System.out.println("Setting up PowerShell session...");
 		send("Set-ExecutionPolicy Unrestricted -Scope Process");
+		
 		System.out.println("Retrieving system info...");
 		System.out.println(getSysInfo());
 	}

@@ -19,14 +19,18 @@ public class SendCommand extends Command{
 	private String _fileName;
 	
 	public SendCommand() {
-		super("send", "\"file/dir\"", "compress and sends the specified file/dir to the default email");
+		super("send");
 	}
 
 	protected boolean parse(String command) {
 		boolean ok = false;
 		
 		if(command.contains(_commandName)) {
-			_fileName = command.split("\"")[1];
+			try {
+				_fileName = command.split("\"")[1];
+			}catch(Exception e) {
+				throw new IllegalArgumentException();
+			}
 			ok = true;
 		}
 		

@@ -7,7 +7,7 @@ import control.Controller;
 public class EndCommand extends Command{
 
 	public EndCommand() {
-		super("endcon", null, "Ends the connection with the victim");
+		super("endcon");
 	}
 
 	@Override
