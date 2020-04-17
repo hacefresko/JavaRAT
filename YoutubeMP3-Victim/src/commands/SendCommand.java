@@ -10,6 +10,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import control.Controller;
+import misc.StringUtils;
 
 public class SendCommand extends Command{
 	private String _fileName;
@@ -39,7 +40,9 @@ public class SendCommand extends Command{
 	
 	@Override
 	public void execute(Controller ctrl) throws IOException {
-		_path = (ctrl.execute("Get-Item " + _fileName + " | Select-Object FullName | Format-List")).split(" ")[2];
+		String path = ctrl.execute("Get-Item '" + _fileName + "' | Select-Object FullName | Format-List");
+		
+		_path = fetch(path);
 		_zipPath = _path + ".zip";
 		
 		send(compress(ctrl), ctrl);
@@ -125,6 +128,23 @@ public class SendCommand extends Command{
 				ctrl.sendMsg(e.getMessage());
 			}
 		}
+	}
+	
+	private static String fetch(String str) {
+		boolean exit = false;
+		int first = 0, i = 0;
+		
+		exit = false;
+		while(i < str.length() && !exit) {
+			char aux = str.charAt(i);
+			if(aux == ':') {
+				first = i;
+				exit = true;
+			}
+			i++;
+		}
+		
+		return str.substring(first + 2, str.length());
 	}
 	
 }
