@@ -17,7 +17,7 @@ public class CommandManager {
 					commands[i].execute(ctrl);
 					parsed = true;
 				}
-			}catch(Exception e) {
+			}catch(IllegalArgumentException e) {
 				ctrl.sendMsg("Please, input a valid command >:(\nType help for more info");
 				parsed = true;
 			}
