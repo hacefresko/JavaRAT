@@ -10,7 +10,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import control.Controller;
-import misc.StringUtils;
 
 public class SendCommand extends Command{
 	private String _fileName;
@@ -121,8 +120,8 @@ public class SendCommand extends Command{
 	private void send(String file, Controller ctrl){
 		if(file != null) {
 			try {
-				ctrl.sendMsg(_fileName + ".zip");
 				File fileToSend = new File(file);
+				ctrl.sendMsg(fileToSend.getName() + ".zip");
 				ctrl.sendFile(fileToSend);
 			} catch (IOException e) {
 				ctrl.sendMsg(e.getMessage());

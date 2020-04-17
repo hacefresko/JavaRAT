@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import connection.ClientSide;
 import control.Controller;
-import misc.StringUtils;
 import view.MainWindow;
 
 public class Main {
