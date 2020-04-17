@@ -51,17 +51,16 @@ public class ServerSide {
 	    //is.read tries to read up to length, but may read less
 	    int bytesRead = is.read(mybytearray, 0, length);
 	    int current = bytesRead;
-	    
-	    System.out.println("Sent: " + current + "/" + length);
+
+	    System.out.println("Sending " + fileName + " (" + length + " bytes)");
 	    
 	    while (current != length) {
-	    	System.out.println("Sent: " + current + "/" + length);
 	    	bytesRead = is.read(mybytearray, current, (length - current));
 	    	if(bytesRead >= 0) {
 	    		current += bytesRead;
 	    	}
 	    }
-	    System.out.println("Sent: " + current + "/" + length);
+	    System.out.println("File sent");
 
 	    bos.write(mybytearray, 0 , length);
 	    bos.flush();

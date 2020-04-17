@@ -27,7 +27,7 @@ public class SendCommand extends Command{
 		String response = server.send(_command);
 		System.out.println(response);
 		
-		if(response.contains("Compressed")) {
+		if(response.contains("File compressed")) {
 			String fileName = server.receive();
 			
 			ServerSide temporary = new ServerSide(5124);

