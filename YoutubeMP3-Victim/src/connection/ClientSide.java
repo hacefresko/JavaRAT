@@ -51,7 +51,9 @@ public class ClientSide {
         bin.read(mybytearray, 0, mybytearray.length);
         out.write(mybytearray,0, mybytearray.length);
         
-        out.flush();
+        in.close();
+        bin.close();
+        out.close();
 	}
 	
 	public void end() throws IOException {

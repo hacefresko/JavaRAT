@@ -65,6 +65,10 @@ public class ServerSide {
 
 	    bos.write(mybytearray, 0 , length);
 	    bos.flush();
+	    
+	    is.close();
+		out.close();
+		bos.close();
 		
 		return length;
 	}

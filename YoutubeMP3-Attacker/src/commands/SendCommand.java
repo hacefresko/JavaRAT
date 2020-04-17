@@ -29,7 +29,11 @@ public class SendCommand extends Command{
 		
 		if(response.contains("Compressed")) {
 			String fileName = server.receive();
-			server.receive(fileName);
+			
+			ServerSide temporary = new ServerSide(5124);
+			temporary.connect();
+			temporary.receive(fileName);
+			temporary.end();
 			System.out.println("Process completed");
 		}
 	}

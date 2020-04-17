@@ -12,8 +12,10 @@ import connection.ClientSide;
 public class Controller {
 	private PowerShell powerShell;
 	private ClientSide client;
+	private String _ip;
 	
 	public Controller(String ip, int port) {
+		_ip = ip;
 		client = new ClientSide(ip, port);
 		powerShell = PowerShell.openSession();
 		powerShell.executeCommand("Set-ExecutionPolicy Unrestricted -Scope Process");
@@ -52,7 +54,10 @@ public class Controller {
 	}
 	
 	public void sendFile(File file) throws IOException {
-		client.send(file);
+		ClientSide temporary = new ClientSide(_ip, 5124);
+		temporary.reset();
+		temporary.send(file);
+		temporary.end();
 	}
 	
 	public String execute(String command) {

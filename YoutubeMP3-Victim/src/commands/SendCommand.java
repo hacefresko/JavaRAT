@@ -10,7 +10,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import control.Controller;
-import misc.StringUtils;
 
 public class SendCommand extends Command{
 	private String _fileName;
@@ -52,13 +51,13 @@ public class SendCommand extends Command{
 		byte[] buffer = new byte[1024];
     	
 		try{
-			File pathSpecified = new File(_path);
-			if(pathSpecified.exists()) {
+			File fileToCompress = new File(_path);
+			if(fileToCompress.exists()) {
 				
 				FileOutputStream fos = new FileOutputStream(_zipPath);
 		    	ZipOutputStream zos = new ZipOutputStream(fos);
 		    	
-				if(pathSpecified.isFile()) {
+				if(fileToCompress.isFile()) {
 		    		ZipEntry ze= new ZipEntry(_fileName);
 		    		zos.putNextEntry(ze);
 		    		FileInputStream in = new FileInputStream(_path);
@@ -71,7 +70,7 @@ public class SendCommand extends Command{
 		    		in.close();
 				}
 				else {
-					generateFileList(pathSpecified);
+					generateFileList(fileToCompress);
 			    	
 			    	for(String file : this.fileList){
 			    		ZipEntry ze= new ZipEntry(file);
@@ -87,7 +86,9 @@ public class SendCommand extends Command{
 				}
 				zos.closeEntry();
 		    	zos.close();
-		    	ctrl.sendMsg("Compressed " + _fileName + " into " + _fileName + ".zip");
+		    	fos.close();
+		    	ctrl.sendMsg("Compressed " + fileToCompress.getName() + " into " + fileToCompress.getName() + ".zip");
+		    	
 		    	return _zipPath;
 			}
 			else {
@@ -103,7 +104,7 @@ public class SendCommand extends Command{
 	private void generateFileList(File node){
     	//add file only
 		if(node.isFile()){
-			fileList.add(generateZipEntry(node.getAbsoluteFile().toString()));
+			fileList.add(node.getName());
 		}
 			
 		if(node.isDirectory()){
@@ -114,9 +115,9 @@ public class SendCommand extends Command{
 		}
     }
 	
-	private String generateZipEntry(String file){
-    	return file.substring(_path.length()+1, file.length());
-    }
+	//private String generateZipEntry(String file){
+    //	return file.substring(_path.length()+1, file.length());
+    //}
 	
 	private void send(String file, Controller ctrl){
 		if(file != null) {
