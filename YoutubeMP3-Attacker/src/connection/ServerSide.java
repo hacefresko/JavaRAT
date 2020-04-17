@@ -1,7 +1,9 @@
 package connection;
 
+import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,12 +41,33 @@ public class ServerSide {
 	}
 	
 	public long receive(String fileName) throws IOException {
-		InputStream in = s.getInputStream();
-		OutputStream out = new FileOutputStream(fileName);
-		long transferred = IOUtils.copyLarge(in, out);
-		out.close();
+		int length = Integer.valueOf(receive());
+		byte [] mybytearray  = new byte [length];
 		
-		return transferred;
+	    InputStream is = s.getInputStream();
+	    FileOutputStream out = new FileOutputStream(new File(fileName));
+	    BufferedOutputStream bos = new BufferedOutputStream(out);
+	    
+	    //is.read tries to read up to length, but may read less
+	    int bytesRead = is.read(mybytearray, 0, length);
+	    int current = bytesRead;
+	    
+	    System.out.println("Length: " + length);
+	    System.out.println("Sent: " + current);
+	    
+	    while (current != length) {
+	    	System.out.println("Sent: " + current);
+	    	bytesRead = is.read(mybytearray, current, (length - current));
+	    	if(bytesRead >= 0) {
+	    		current += bytesRead;
+	    	}
+	    }
+	    System.out.println("Sent: " + current);
+
+	    bos.write(mybytearray, 0 , length);
+	    bos.flush();
+		
+		return length;
 	}
 	
 	public String receive() throws IOException {

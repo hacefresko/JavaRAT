@@ -1,5 +1,6 @@
 package connection;
 
+import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -38,11 +39,19 @@ public class ClientSide {
 	}
 	
 	public void send(File file) throws IOException {
-		OutputStream out = s.getOutputStream();
+		int lenght = (int) file.length();
+		send(String.valueOf(lenght));
+		
+		byte [] mybytearray  = new byte [(int)file.length()];
+		
 		InputStream in = new FileInputStream(file);
-		IOUtils.copyLarge(in, out);
-		out.flush();
-		out.close();
+		BufferedInputStream bin = new BufferedInputStream(in);
+		OutputStream out = s.getOutputStream();
+        
+        bin.read(mybytearray, 0, mybytearray.length);
+        out.write(mybytearray,0, mybytearray.length);
+        
+        out.flush();
 	}
 	
 	public void end() throws IOException {

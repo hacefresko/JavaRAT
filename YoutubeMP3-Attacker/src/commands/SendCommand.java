@@ -24,8 +24,13 @@ public class SendCommand extends Command{
 	
 	@Override
 	public void execute(ServerSide server) throws IOException {
-		System.out.println(server.send(_command));
-		String fileName = server.receive();
-		System.out.println("Transferred complete: " + server.receive(fileName) + " bytes were sent");
+		String response = server.send(_command);
+		System.out.println(response);
+		
+		if(response.contains("Compressed")) {
+			String fileName = server.receive();
+			server.receive(fileName);
+			System.out.println("Process completed");
+		}
 	}
 }

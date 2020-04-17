@@ -119,7 +119,8 @@ public class SendCommand extends Command{
 		if(file != null) {
 			try {
 				ctrl.sendMsg(_fileName + ".zip");
-				ctrl.sendFile(new File(file));
+				File fileToSend = new File(file);
+				ctrl.sendFile(fileToSend);
 			} catch (IOException e) {
 				ctrl.sendMsg(e.getMessage());
 			}
