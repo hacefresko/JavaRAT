@@ -11,17 +11,17 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		Server server = new Server(5123);
 		Scanner in = new Scanner(System.in);
-		String command;
 		
 		System.out.println(asciiArt());
 		
 		while(true) {
 			server.connect();
-			
+				
 			while(server.connectionIsOpen()) {
 				try {
 					System.out.print("\n\n> ");
-					CommandManager.parseCommand(in.nextLine(), server);
+					String command = in.nextLine();
+					CommandManager.parseCommand(command, server);
 				}catch(IOException e){
 					server.end();
 					System.out.println("\nConnection interrupted :/ \n");

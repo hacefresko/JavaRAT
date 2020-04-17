@@ -9,16 +9,19 @@ public class CommandManager {
 	
 	public static void parseCommand(String command, Controller ctrl) throws IOException {
 		boolean parsed = false;
-
-		for(Command c : commands) {
+		int i = 0;
+		
+		while(!parsed && i < commands.length) {
 			try {
-				if(c.parse(command)) {
-					c.execute(ctrl);
+				if(commands[i].parse(command)) {
+					commands[i].execute(ctrl);
 					parsed = true;
 				}
 			}catch(Exception e) {
 				ctrl.sendMsg("Please, input a valid command >:(\nType help for more info");
+				parsed = true;
 			}
+			i++;
 		}
 		if(!parsed) {
 			ctrl.execute(command);

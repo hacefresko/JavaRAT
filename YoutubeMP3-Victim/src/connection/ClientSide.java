@@ -37,8 +37,8 @@ public class ClientSide {
 		return din.readUTF();
 	}
 	
-	public boolean isConnected() {
-		return s.isConnected();
+	public boolean isClosed() {
+		return s.isClosed();
 	}
 	
 	public void send(String msg) throws IOException {
@@ -47,7 +47,7 @@ public class ClientSide {
 	}
 	
 	public void end() throws IOException {
-		s.close();
+		try{s.close();}catch (NullPointerException ex) {}
 	}
 	
 	public void reset() throws IOException {
