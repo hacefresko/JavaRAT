@@ -41,8 +41,8 @@ public class ServerSide {
 	}
 	
 	public long receive(String fileName) throws IOException {
-		int length = Integer.valueOf(receive());
-		byte [] mybytearray  = new byte [length];
+	    int length = Integer.valueOf(receive());
+	    byte [] mybytearray  = new byte [length];
 		
 	    InputStream is = s.getInputStream();
 	    FileOutputStream out = new FileOutputStream(new File(fileName));
@@ -52,17 +52,16 @@ public class ServerSide {
 	    int bytesRead = is.read(mybytearray, 0, length);
 	    int current = bytesRead;
 	    
-	    System.out.println("Length: " + length);
-	    System.out.println("Sent: " + current);
+	    System.out.println("Sent: " + current + "/" + length);
 	    
 	    while (current != length) {
-	    	System.out.println("Sent: " + current);
+	    	System.out.println("Sent: " + current + "/" + length);
 	    	bytesRead = is.read(mybytearray, current, (length - current));
 	    	if(bytesRead >= 0) {
 	    		current += bytesRead;
 	    	}
 	    }
-	    System.out.println("Sent: " + current);
+	    System.out.println("Sent: " + current + "/" + length);
 
 	    bos.write(mybytearray, 0 , length);
 	    bos.flush();
