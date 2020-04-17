@@ -1,5 +1,6 @@
 package commands;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -45,7 +46,7 @@ public class SendCommand extends Command{
 		send(compress(ctrl), ctrl);
 	}
 
-	private String compress(Controller ctrl) throws IOException {
+	private String compress(Controller ctrl){
 		byte[] buffer = new byte[1024];
     	
 		try{
@@ -115,8 +116,26 @@ public class SendCommand extends Command{
     	return file.substring(_path.length()+1, file.length());
     }
 	
-	private void send(String file, Controller ctrl) throws IOException {
-		
+	private void send(String file, Controller ctrl){
+		if(file != null) {
+			File myFile = new File (file);
+	        byte [] mybytearray  = new byte [(int)myFile.length()];
+	         
+	        try {
+	        	ctrl.sendMsg(myFile.length() + "");
+	        	
+		        FileInputStream fis = new FileInputStream(myFile);
+		        BufferedInputStream bis = new BufferedInputStream(fis);
+		        
+		        bis.read(mybytearray,0,mybytearray.length);
+		        ctrl.sendFile(mybytearray,0,mybytearray.length);
+		        ctrl.sendMsg("File sent");
+		        
+		        if (bis != null) bis.close();
+	        } catch(IOException e) {
+	        	ctrl.sendMsg("File couldn't be sent");
+	        }
+		}
 	}
 	
 }

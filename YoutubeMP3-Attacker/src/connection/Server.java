@@ -39,6 +39,14 @@ public class Server {
 		
 		return din.readUTF();
 	}
+	
+	public int receiveFile(byte[] b, int off, int len) throws IOException {
+		return din.read(b,off,len);
+	}
+	
+	public String receive() throws IOException {
+		return din.readUTF();
+	}
 
 	public void end() throws IOException {
 		s.close();

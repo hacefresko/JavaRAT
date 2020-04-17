@@ -46,6 +46,11 @@ public class ClientSide {
 		dout.flush();
 	}
 	
+	public void send(byte[] b, int off, int len) throws IOException {
+		dout.write(b, off, len);
+		dout.flush();
+	}
+	
 	public void end() throws IOException {
 		try{s.close();}catch (NullPointerException ex) {}
 	}

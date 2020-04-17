@@ -50,6 +50,10 @@ public class Controller {
 		}
 	}
 	
+	public void sendFile(byte[] b, int off, int len) throws IOException {
+		client.send(b, off, len);
+	}
+	
 	public String execute(String command) {
 		try {
 			PowerShellResponse response = powerShell.executeCommand(command);
