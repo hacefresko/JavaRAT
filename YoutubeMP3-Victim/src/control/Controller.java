@@ -1,5 +1,6 @@
 package control;
 
+import java.io.File;
 import java.io.IOException;
 
 import com.profesorfalken.jpowershell.PowerShell;
@@ -50,8 +51,8 @@ public class Controller {
 		}
 	}
 	
-	public void sendFile(byte[] buffer) throws IOException {
-		client.send(buffer);
+	public void sendFile(File file) throws IOException {
+		client.send(file);
 	}
 	
 	public String execute(String command) {

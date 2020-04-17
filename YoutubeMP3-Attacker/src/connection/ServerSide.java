@@ -2,12 +2,16 @@ package connection;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import org.apache.commons.io.IOUtils;
 
-public class Server {
+public class ServerSide {
 	private Socket s;
 	private ServerSocket ss;
 	private DataOutputStream dout;
@@ -15,22 +19,16 @@ public class Server {
 	
 	private int _port;
 	
-	public Server(int port){
+	public ServerSide(int port){
 		_port = port;
 	}
 
-	public void connect() throws IOException {
+	public void connect() throws IOException{
 		ss = new ServerSocket(_port);
-		System.out.println("Waiting for connection on port " + _port + "...");
 		s = ss.accept();
 		System.gc(); //Calls the garbage collector because of the previous function
-		System.out.println("Connected");
-		
 		dout = new DataOutputStream(s.getOutputStream());
 		din = new DataInputStream(s.getInputStream());
-
-		System.out.println("Retrieving system info...");
-		System.out.println(getSysInfo());
 	}
 	
 	public String send(String str) throws IOException {
@@ -40,8 +38,13 @@ public class Server {
 		return din.readUTF();
 	}
 	
-	public int receiveFile(byte[] b, int off, int len) throws IOException {
-		return din.read(b,off,len);
+	public long receive(String fileName) throws IOException {
+		InputStream in = s.getInputStream();
+		OutputStream out = new FileOutputStream(fileName);
+		long transferred = IOUtils.copyLarge(in, out);
+		out.close();
+		
+		return transferred;
 	}
 	
 	public String receive() throws IOException {
@@ -49,6 +52,8 @@ public class Server {
 	}
 
 	public void end() throws IOException {
+		dout.close();
+		din.close();
 		s.close();
 		ss.close();
 	}
@@ -57,7 +62,7 @@ public class Server {
 		return !s.isClosed();
 	}
 	
-	private String getSysInfo() throws IOException {
+	public String getSysInfo() throws IOException {
 		String sysInfo = "[not found]";
 		
 		if(s.isConnected()) {

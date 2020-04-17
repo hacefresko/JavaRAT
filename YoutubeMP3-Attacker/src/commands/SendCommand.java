@@ -1,12 +1,8 @@
 package commands;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
-import connection.Server;
+import connection.ServerSide;
 
 public class SendCommand extends Command{
 	private String _command;
@@ -27,9 +23,9 @@ public class SendCommand extends Command{
 	}
 	
 	@Override
-	public void execute(Server server) throws IOException {
+	public void execute(ServerSide server) throws IOException {
 		System.out.println(server.send(_command));
-		
-		
+		String fileName = server.receive();
+		System.out.println("Transferred complete: " + server.receive(fileName) + " bytes were sent");
 	}
 }

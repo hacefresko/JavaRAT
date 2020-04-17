@@ -1,7 +1,5 @@
 package commands;
 
-import java.io.BufferedInputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -86,7 +84,7 @@ public class SendCommand extends Command{
 				}
 				zos.closeEntry();
 		    	zos.close();
-		    	ctrl.sendMsg("Compressed " + _path + " into " + _zipPath);
+		    	ctrl.sendMsg("Compressed " + _fileName + " into " + _fileName + ".zip");
 		    	return _zipPath;
 			}
 			else {
@@ -120,14 +118,11 @@ public class SendCommand extends Command{
 	private void send(String file, Controller ctrl){
 		if(file != null) {
 			try {
-				
-				
-				
-				
-				
-	        } catch(IOException e) {
-	        	ctrl.sendMsg("File couldn't be sent");
-	        }
+				ctrl.sendMsg(_fileName + ".zip");
+				ctrl.sendFile(new File(file));
+			} catch (IOException e) {
+				ctrl.sendMsg(e.getMessage());
+			}
 		}
 	}
 	
