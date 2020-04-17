@@ -28,7 +28,10 @@ public class SendCommand extends Command{
 	
 	@Override
 	public void execute(Controller ctrl) throws IOException {
-		send(compress(_fileName, ctrl), ctrl);
+		String fullPath = (ctrl.execute("Get-Item " + _fileName + " | Select-Object FullName | Format-List")).split(" ")[2];
+		
+		
+		send(compress(fullPath, ctrl), ctrl);
 	}
 
 	private String compress(String fileName, Controller ctrl) throws IOException {

