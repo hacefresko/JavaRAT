@@ -1,6 +1,7 @@
 package commands;
 
 import java.io.BufferedInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -118,20 +119,12 @@ public class SendCommand extends Command{
 	
 	private void send(String file, Controller ctrl){
 		if(file != null) {
-			File myFile = new File (file);
-	        byte [] mybytearray  = new byte [(int)myFile.length()];
-	         
-	        try {
-	        	ctrl.sendMsg(myFile.length() + "");
-	        	
-		        FileInputStream fis = new FileInputStream(myFile);
-		        BufferedInputStream bis = new BufferedInputStream(fis);
-		        
-		        bis.read(mybytearray,0,mybytearray.length);
-		        ctrl.sendFile(mybytearray,0,mybytearray.length);
-		        ctrl.sendMsg("File sent");
-		        
-		        if (bis != null) bis.close();
+			try {
+				
+				
+				
+				
+				
 	        } catch(IOException e) {
 	        	ctrl.sendMsg("File couldn't be sent");
 	        }

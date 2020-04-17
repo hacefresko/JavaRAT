@@ -50,8 +50,8 @@ public class Controller {
 		}
 	}
 	
-	public void sendFile(byte[] b, int off, int len) throws IOException {
-		client.send(b, off, len);
+	public void sendFile(byte[] buffer) throws IOException {
+		client.send(buffer);
 	}
 	
 	public String execute(String command) {

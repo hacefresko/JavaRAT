@@ -46,8 +46,8 @@ public class ClientSide {
 		dout.flush();
 	}
 	
-	public void send(byte[] b, int off, int len) throws IOException {
-		dout.write(b, off, len);
+	public void send(byte[] buffer) throws IOException {
+		dout.write(buffer);
 		dout.flush();
 	}
 	
