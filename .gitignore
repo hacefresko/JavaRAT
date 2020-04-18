@@ -20,11 +20,9 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-/.metadata/
-YoutubeMP3-Attacker/.classpath
-YoutubeMP3-Attacker/bin/
+*.metadata
 *.prefs
-YoutubeMP3-Attacker/.project
-YoutubeMP3-Victim/.classpath
-YoutubeMP3-Victim/.project
-YoutubeMP3-Victim/bin/
+*.project
+*.classpath
+*.project
+*/bin/
