@@ -39,6 +39,8 @@ public class Client {
 	}
 	
 	public void send(File file) throws IOException {
+		send(file.getName());
+		
 		int lenght = (int) file.length();
 		send(String.valueOf(lenght));
 		
@@ -58,7 +60,12 @@ public class Client {
 	}
 	
 	public void end() throws IOException {
-		try{s.close(); dout.close(); din.close();}catch (NullPointerException ex) {}
+		s.close();
+	}
+	
+	public void connect() throws IOException {
+		reset();
+		dout.writeUTF("hello");
 	}
 	
 	public void reset() throws IOException {
@@ -69,11 +76,12 @@ public class Client {
 	}
 	
 	private boolean initConnection() {
-        try
-        {
+        try{
             s = new Socket(_ip,_port);
             return true;
         }
-        catch(Exception err){return false;}
+        catch(Exception err){
+        	return false;
+        }
     }
 }

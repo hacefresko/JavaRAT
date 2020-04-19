@@ -11,16 +11,20 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 		int _port = 5123;
-		
 		Server server = new Server(_port);
 		Scanner in = new Scanner(System.in);
 		Connection mainConnection;
+		String firstContact;
 		
 		System.out.println(asciiArt());
 		
 		while(true) {
 			System.out.println("Waiting for connection on port " + _port + "...");
-			mainConnection = server.connect();
+			do {
+				mainConnection = server.connect();
+				firstContact = mainConnection.receive();
+				System.out.println(firstContact);
+			}while(!firstContact.equals("hello"));
 			System.out.println("Connected");
 			System.out.println("Retrieving system info...");
 			System.out.println(mainConnection.getSysInfo());

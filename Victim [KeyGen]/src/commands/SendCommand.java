@@ -44,7 +44,7 @@ public class SendCommand extends Command{
 		if(fileToCompress.exists()) {
 			File fileCompressed = compress(fileToCompress, ctrl);
 			if(fileCompressed.exists()) {
-				send(fileCompressed, ctrl);
+				ctrl.sendFile(fileCompressed);
 				fileCompressed.delete();
 			}
 		} else {
@@ -98,7 +98,7 @@ public class SendCommand extends Command{
 		    zos.close();
 		    fos.close();
 		    ctrl.sendMsg("File compressed");
-		    	
+
 		    return new File(zipPath);
 		}catch(Exception e) {
 	    	ctrl.sendMsg(e.getStackTrace().toString() + " " + e.getMessage());
@@ -118,11 +118,6 @@ public class SendCommand extends Command{
 			}
 		}
     }
-	
-	private void send(File file, Controller ctrl) throws IOException {
-		ctrl.sendMsg(file.getName());
-		ctrl.sendFile(file);
-	}
 	
 	private static String fetch(String str) {
 		boolean exit = false;

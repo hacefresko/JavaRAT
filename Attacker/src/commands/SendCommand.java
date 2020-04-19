@@ -30,14 +30,16 @@ public class SendCommand extends Command{
 		System.out.println(response);
 		
 		if(response.contains("File compressed")) {
-			String fileName = con.receive();
-			
 			Thread t = new Thread() {
 		    	public void run() {
 		    		Connection temp = null;
+		    		String fileName;
 			    	try {
-					    temp = server.connect();
-					    temp.receive(fileName);
+			    		do {
+			    			temp = server.connect();
+			    			fileName = temp.receive();
+			    		}while(fileName.equals("hello"));
+			    		temp.receive(fileName);
 			    	}catch(IOException e1){
 			    		try{temp.end();}catch(IOException e2) {};
 			    	}
