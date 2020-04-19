@@ -4,33 +4,32 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import commands.CommandManager;
-import connection.Connection;
-import connection.Server;
+import connection.ServerSide;
 
 public class Main {
 
 	public static void main(String[] args) throws IOException {
 		int _port = 5123;
-		Connection mainConnection;
-		Server server = new Server(_port);
+		
+		ServerSide server = new ServerSide(_port);
 		Scanner in = new Scanner(System.in);
 		
 		System.out.println(asciiArt());
 		
 		while(true) {
 			System.out.println("Waiting for connection on port " + _port + "...");
-			mainConnection = server.connect();
+			server.connect();
 			System.out.println("Connected");
 			System.out.println("Retrieving system info...");
-			System.out.println(mainConnection.getSysInfo());
+			System.out.println(server.getSysInfo());
 				
-			while(mainConnection.connectionIsOpen()) {
+			while(server.connectionIsOpen()) {
 				try {
 					System.out.print("\n\n> ");
 					String command = in.nextLine();
-					CommandManager.parseCommand(command, mainConnection, server);
+					CommandManager.parseCommand(command, server);
 				}catch(IOException e){
-					mainConnection.end();
+					server.end();
 					System.out.println("\nConnection interrupted :/ \n");
 				}
 			}

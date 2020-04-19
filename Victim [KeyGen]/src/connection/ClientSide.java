@@ -13,14 +13,14 @@ import java.net.Socket;
 import org.apache.commons.io.IOUtils;
 
 
-public class Client {
+public class ClientSide {
 	private Socket s;
 	private String _ip;
 	private int _port;
 	private DataOutputStream dout;
 	private DataInputStream din;
 	
-	public Client(String hostIP, int port) {
+	public ClientSide(String hostIP, int port) {
 		_ip = hostIP;
 		_port = port;
 	}
@@ -41,16 +41,16 @@ public class Client {
 	public void send(File file) throws IOException {
 		int lenght = (int) file.length();
 		send(String.valueOf(lenght));
-
+		
 		byte [] mybytearray  = new byte [(int)file.length()];
-
+		
 		InputStream in = new FileInputStream(file);
 		BufferedInputStream bin = new BufferedInputStream(in);
 		OutputStream out = s.getOutputStream();
-
+        
         bin.read(mybytearray, 0, mybytearray.length);
         out.write(mybytearray,0, mybytearray.length);
-
+        
         in.close();
         bin.close();
         out.close();

@@ -2,23 +2,22 @@ package commands;
 
 import java.io.IOException;
 
-import connection.Connection;
-import connection.Server;
+import connection.ServerSide;
 
 public class CommandManager {
 	private static Command[] commands = {new HelpCommand(), new EndCommand(), new SendCommand()};
 	
-	public static void parseCommand(String command, Connection con, Server server) throws IOException {
+	public static void parseCommand(String command, ServerSide server) throws IOException {
 		boolean parsed = false;
 
 		for(Command c : commands) {
 			if(c.parse(command)) {
-				c.execute(con, server);
+				c.execute(server);
 				parsed = true;
 			}
 		}
 		if(!parsed) {
-			System.out.println(con.send(command));
+			System.out.println(server.send(command));
 		}
 	}
 	
