@@ -2,7 +2,7 @@ package commands;
 
 import java.io.IOException;
 
-import connection.ServerSide;
+import connection.Server;
 
 public abstract class Command {
 	protected String _commandName;
@@ -15,7 +15,7 @@ public abstract class Command {
 		_help = help;
 	}
 	
-	public abstract void execute(ServerSide server) throws IOException;
+	public abstract void execute(Server server) throws IOException;
 
 	protected boolean parse(String command) {
 		return _commandName.equals(command);

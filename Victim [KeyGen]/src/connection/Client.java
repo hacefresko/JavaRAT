@@ -13,14 +13,14 @@ import java.net.Socket;
 import org.apache.commons.io.IOUtils;
 
 
-public class ClientSide {
+public class Client {
 	private Socket s;
 	private String _ip;
 	private int _port;
 	private DataOutputStream dout;
 	private DataInputStream din;
 	
-	public ClientSide(String hostIP, int port) {
+	public Client(String hostIP, int port) {
 		_ip = hostIP;
 		_port = port;
 	}
@@ -51,9 +51,10 @@ public class ClientSide {
         bin.read(mybytearray, 0, mybytearray.length);
         out.write(mybytearray,0, mybytearray.length);
         
+        //out.close() directly shuts down the socket
+        out.close();
         in.close();
         bin.close();
-        out.close();
 	}
 	
 	public void end() throws IOException {

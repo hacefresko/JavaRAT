@@ -3,7 +3,7 @@ package commands;
 import java.io.IOException;
 import java.util.Scanner;
 
-import connection.ServerSide;
+import connection.Server;
 
 public class HelpCommand extends Command{
 
@@ -12,7 +12,7 @@ public class HelpCommand extends Command{
 	}
 
 	@Override
-	public void execute(ServerSide server) throws IOException {
+	public void execute(Server server) throws IOException {
 		Scanner in = new Scanner(System.in);
 		
 		System.out.println("\nAvailable commands:\n");

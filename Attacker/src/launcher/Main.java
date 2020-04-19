@@ -4,14 +4,14 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import commands.CommandManager;
-import connection.ServerSide;
+import connection.Server;
 
 public class Main {
 
 	public static void main(String[] args) throws IOException {
 		int _port = 5123;
 		
-		ServerSide server = new ServerSide(_port);
+		Server server = new Server(_port);
 		Scanner in = new Scanner(System.in);
 		
 		System.out.println(asciiArt());

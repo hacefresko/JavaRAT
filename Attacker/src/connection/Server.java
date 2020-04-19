@@ -13,7 +13,7 @@ import java.net.Socket;
 
 import org.apache.commons.io.IOUtils;
 
-public class ServerSide {
+public class Server {
 	private Socket s;
 	private ServerSocket ss;
 	private DataOutputStream dout;
@@ -21,7 +21,7 @@ public class ServerSide {
 	
 	private int _port;
 	
-	public ServerSide(int port){
+	public Server(int port){
 		_port = port;
 	}
 
@@ -40,40 +40,55 @@ public class ServerSide {
 		return din.readUTF();
 	}
 	
-	public long receive(String fileName) throws IOException {
-	    int length = Integer.valueOf(receive());
-	    byte [] mybytearray  = new byte [length];
-		
-	    InputStream is = s.getInputStream();
-	    FileOutputStream out = new FileOutputStream(new File(fileName));
-	    BufferedOutputStream bos = new BufferedOutputStream(out);
-	    
-	    //is.read tries to read up to length, but may read less
-	    int bytesRead = is.read(mybytearray, 0, length);
-	    int current = bytesRead;
-
-	    System.out.println("Sending " + fileName + " (" + length + " bytes)");
-	    
-	    while (current != length) {
-	    	bytesRead = is.read(mybytearray, current, (length - current));
-	    	if(bytesRead >= 0) {
-	    		current += bytesRead;
-	    	}
-	    }
-	    System.out.println("File sent");
-
-	    bos.write(mybytearray, 0 , length);
-	    bos.flush();
-	    
-	    is.close();
-		out.close();
-		bos.close();
-		
-		return length;
-	}
-	
 	public String receive() throws IOException {
 		return din.readUTF();
+	}
+	
+	public void receive(String fileName) throws IOException {
+	    Thread t = new Thread() {
+	    	public void run() {
+	    		Socket temporarySocket = null;
+	    		try {
+				    temporarySocket = ss.accept();
+				    
+				    InputStream is = temporarySocket.getInputStream();
+				    DataInputStream din = new DataInputStream(is);
+				    FileOutputStream out = new FileOutputStream(new File(fileName));
+				    BufferedOutputStream bos = new BufferedOutputStream(out);
+				    
+				    //Client sends length of file
+				    int length = Integer.valueOf(din.readUTF());
+				    byte [] mybytearray  = new byte [length];
+				    System.out.println("Receiving " + fileName + " (" + length + " bytes)");
+				    
+				    //is.read tries to read up to length, but may read less
+				    int bytesRead = is.read(mybytearray, 0, length);
+				    int current = bytesRead;
+				    
+				    while (current != length) {
+				    	System.out.println(current + "/" + length);
+				    	bytesRead = is.read(mybytearray, current, (length - current));
+				    	if(bytesRead >= 0) {
+				    		current += bytesRead;
+				    	}
+				    }
+				    
+				    System.out.println("File recieved");
+			
+				    bos.write(mybytearray, 0 , length);
+				    bos.flush();
+				    
+				    is.close();
+					out.close();
+					bos.close();
+	    		}catch(IOException e) {
+	    			System.out.println(e.getMessage());
+	    			try{temporarySocket.close();}catch(IOException e2) {}
+	    		}
+	    	}
+	    };
+		t.start();
+		try{t.join();}catch(InterruptedException e) {};
 	}
 
 	public void end() throws IOException {
