@@ -1,8 +1,10 @@
 package commands;
 
 import java.io.IOException;
+import java.net.Socket;
 
-import connection.ServerSide;
+import connection.Connection;
+import connection.Server;
 
 public class SendCommand extends Command{
 	private String _command;
@@ -23,15 +25,14 @@ public class SendCommand extends Command{
 	}
 	
 	@Override
-	public void execute(ServerSide server) throws IOException {
-		String response = server.send(_command);
+	public void execute(Connection con, Server server) throws IOException {
+		String response = con.send(_command);
 		System.out.println(response);
 		
 		if(response.contains("File compressed")) {
-			String fileName = server.receive();
-			
-			ServerSide temporary = new ServerSide(5124);
-			temporary.connect();
+			String fileName = con.receive();
+
+			Connection temporary = server.connect();
 			temporary.receive(fileName);
 			temporary.end();
 			System.out.println("Process completed");

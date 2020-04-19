@@ -7,16 +7,18 @@ import com.profesorfalken.jpowershell.PowerShell;
 import com.profesorfalken.jpowershell.PowerShellResponse;
 
 import commands.CommandManager;
-import connection.ClientSide;
+import connection.Client;
 
 public class Controller {
 	private PowerShell powerShell;
-	private ClientSide client;
+	private Client client;
 	private String _ip;
+	private int _port;
 	
 	public Controller(String ip, int port) {
 		_ip = ip;
-		client = new ClientSide(ip, port);
+		_port = port;
+		client = new Client(ip, port);
 		powerShell = PowerShell.openSession();
 		powerShell.executeCommand("Set-ExecutionPolicy Unrestricted -Scope Process");
 	}
@@ -54,7 +56,7 @@ public class Controller {
 	}
 	
 	public void sendFile(File file) throws IOException {
-		ClientSide temporary = new ClientSide(_ip, 5124);
+		Client temporary = new Client(_ip, _port);
 		temporary.reset();
 		temporary.send(file);
 		temporary.end();
