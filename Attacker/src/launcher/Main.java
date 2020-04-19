@@ -30,7 +30,7 @@ public class Main {
 					System.out.print("\n\n> ");
 					String command = in.nextLine();
 					CommandManager.parseCommand(command, mainConnection, server);
-				}catch(IOException e){
+				}catch(IOException | InterruptedException e){
 					mainConnection.end();
 					System.out.println("\nConnection interrupted :/ \n");
 				}

@@ -12,7 +12,7 @@ public class EndCommand extends Command{
 	}
 
 	@Override
-	public void execute(Connection con, Server server) throws IOException {
+	public void execute(Connection con, Server server) throws IOException, InterruptedException {
 		System.out.println(con.send(_commandName));
 		con.end();
 	}

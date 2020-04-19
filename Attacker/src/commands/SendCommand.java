@@ -25,27 +25,27 @@ public class SendCommand extends Command{
 	}
 	
 	@Override
-	public void execute(Connection con, Server server) throws IOException {
+	public void execute(Connection con, Server server) throws IOException, InterruptedException {
 		String response = con.send(_command);
 		System.out.println(response);
 		
 		if(response.contains("File compressed")) {
 			String fileName = con.receive();
+			
 			Thread t = new Thread() {
 		    	public void run() {
 		    		Connection temp = null;
-		    		try {
+			    	try {
 					    temp = server.connect();
 					    temp.receive(fileName);
-					    
-		    		}catch(IOException e) {
-		    			System.out.println(e.getMessage());
-		    			try{temp.end();}catch(IOException e2) {}
-		    		}
+			    	}catch(IOException e1){
+			    		try{temp.end();}catch(IOException e2) {};
+			    	}
 		    	}
 		    };
 			t.start();
-			try{t.join();}catch(InterruptedException e) {};
+			t.join();
+
 		}
 	}
 }

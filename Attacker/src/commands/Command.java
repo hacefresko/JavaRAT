@@ -16,7 +16,7 @@ public abstract class Command {
 		_help = help;
 	}
 	
-	public abstract void execute(Connection con, Server server) throws IOException;
+	public abstract void execute(Connection con, Server server) throws IOException, InterruptedException;
 
 	protected boolean parse(String command) {
 		return _commandName.equals(command);

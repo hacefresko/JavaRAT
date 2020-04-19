@@ -13,7 +13,7 @@ public class HelpCommand extends Command{
 	}
 
 	@Override
-	public void execute(Connection con, Server server) throws IOException {
+	public void execute(Connection con, Server server) throws IOException, InterruptedException {
 		Scanner in = new Scanner(System.in);
 		
 		System.out.println("\nAvailable commands:\n");
