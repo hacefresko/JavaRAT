@@ -47,7 +47,6 @@ public class SendCommand extends Command{
 		    };
 			t.start();
 			t.join();
-
 		}
 	}
 }

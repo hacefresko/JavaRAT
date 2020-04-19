@@ -23,7 +23,6 @@ public class Main {
 			do {
 				mainConnection = server.connect();
 				firstContact = mainConnection.receive();
-				System.out.println(firstContact);
 			}while(!firstContact.equals("hello"));
 			System.out.println("Connected");
 			System.out.println("Retrieving system info...");
