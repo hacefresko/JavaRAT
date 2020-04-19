@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import commands.CommandManager;
+import connection.Connection;
 import connection.Server;
 
 public class Main {
@@ -13,23 +14,24 @@ public class Main {
 		
 		Server server = new Server(_port);
 		Scanner in = new Scanner(System.in);
+		Connection mainConnection;
 		
 		System.out.println(asciiArt());
 		
 		while(true) {
 			System.out.println("Waiting for connection on port " + _port + "...");
-			server.connect();
+			mainConnection = server.connect();
 			System.out.println("Connected");
 			System.out.println("Retrieving system info...");
-			System.out.println(server.getSysInfo());
+			System.out.println(mainConnection.getSysInfo());
 				
-			while(server.connectionIsOpen()) {
+			while(mainConnection.connectionIsOpen()) {
 				try {
 					System.out.print("\n\n> ");
 					String command = in.nextLine();
-					CommandManager.parseCommand(command, server);
+					CommandManager.parseCommand(command, mainConnection, server);
 				}catch(IOException e){
-					server.end();
+					mainConnection.end();
 					System.out.println("\nConnection interrupted :/ \n");
 				}
 			}
