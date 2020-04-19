@@ -25,7 +25,7 @@ public class Controller {
 
 	public void run() {
 		try {
-			reset();
+			connect();
 		} catch (IOException e) {
 			return;
 		}
@@ -34,7 +34,7 @@ public class Controller {
 				CommandManager.parseCommand(client.receive().trim(), this);
 			} catch (IOException e1) {
 	        	try {
-	        		reset();
+	        		connect();
 	        	}
 	        	catch(IOException e2) {
 	        		return;
@@ -92,7 +92,7 @@ public class Controller {
 		}
 	}
 
-	private void reset() throws IOException {
-		client.reset();
+	private void connect() throws IOException {
+		client.connect();
 	}
 }

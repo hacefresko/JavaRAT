@@ -3,6 +3,7 @@ package launcher;
 import java.io.IOException;
 
 import control.Controller;
+import view.MainWindow;
 
 public class Main {
 	public static void main(String[] args) throws IOException {
