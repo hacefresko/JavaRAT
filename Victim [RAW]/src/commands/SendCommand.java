@@ -119,7 +119,7 @@ public class SendCommand extends Command{
 		}
     }
 	
-	private void send(File file, Controller ctrl) throws IOException{
+	private void send(File file, Controller ctrl) throws IOException {
 		ctrl.sendMsg(file.getName());
 		ctrl.sendFile(file);
 	}
