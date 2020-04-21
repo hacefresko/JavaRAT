@@ -12,12 +12,12 @@ import java.util.zip.ZipOutputStream;
 
 import control.Controller;
 
-public class SendCommand extends Command{
+public class GetCommand extends Command{
 	private String _fileName;
 	private List<File> fileList;
 	
-	public SendCommand() {
-		super("send");
+	public GetCommand() {
+		super("get");
 		fileList = new ArrayList<File>();
 	}
 
