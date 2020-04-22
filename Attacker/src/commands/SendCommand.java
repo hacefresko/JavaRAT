@@ -1,5 +1,6 @@
 package commands;
 
+import java.io.File;
 import java.io.IOException;
 
 import connection.Connection;
@@ -25,7 +26,14 @@ public class SendCommand extends Command{
 	
 	@Override
 	public void execute(Connection con, Server server) throws IOException, InterruptedException {
-
+		File fileToSend = new File(_fileName);
+		
+		if(fileToSend.exists()) {
+			//send file
+		}
+		else {
+			System.out.println("File not found");
+		}
 	}
 
 }

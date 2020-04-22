@@ -2,7 +2,7 @@ package launcher;
 
 import java.io.IOException;
 
-import control.Controller;
+import connection.Controller;
 import view.MainWindow;
 
 public class Main {
