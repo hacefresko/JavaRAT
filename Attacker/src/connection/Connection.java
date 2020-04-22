@@ -1,12 +1,15 @@
 package connection;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 
 public class Connection {
@@ -26,6 +29,27 @@ public class Connection {
 		dout.flush();
 		
 		return din.readUTF();
+	}
+	
+	public void send(File file) throws IOException {
+		send(file.getName());
+		
+		int lenght = (int) file.length();
+		send(String.valueOf(lenght));
+		
+		byte [] mybytearray  = new byte [(int)file.length()];
+		
+		InputStream in = new FileInputStream(file);
+		BufferedInputStream bin = new BufferedInputStream(in);
+		OutputStream out = s.getOutputStream();
+        
+        bin.read(mybytearray, 0, mybytearray.length);
+        out.write(mybytearray,0, mybytearray.length);
+        
+        //out.close() directly shuts down the socket
+        out.close();
+        in.close();
+        bin.close();
 	}
 	
 	public String receive() throws IOException {
