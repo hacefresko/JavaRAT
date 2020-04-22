@@ -1,5 +1,6 @@
 package connection;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 
@@ -34,4 +35,23 @@ public class Server {
 		try{t.join();}catch(InterruptedException e) {};
 	}
 
+	public void sendFile(File file) {
+		Thread t = new Thread() {
+	    	public void run() {
+	    		Connection temp = null;
+	    		String hello;
+		    	try {
+		    		do {
+		    			temp = connect();
+		    			hello = temp.receive();
+		    		}while(hello.equals("iwtraf :("));
+		    		temp.send(file);
+		    	}catch(IOException e1){
+		    		try{temp.end();}catch(IOException e2) {};
+		    	}
+	    	}
+	    };
+		t.start();
+		try{t.join();}catch(InterruptedException e) {};
+	}
 }

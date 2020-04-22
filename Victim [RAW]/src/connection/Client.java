@@ -33,7 +33,7 @@ public class Client {
 		dout.flush();
 	}
 	
-	public void send(File file) throws IOException {
+	public void sendFile(File file) throws IOException {
 		send(file.getName());
 		
 		int lenght = (int) file.length();
@@ -58,12 +58,14 @@ public class Client {
 		return din.readUTF();
 	}
 	
-	public void receive(String fileName) throws IOException {
+	public void receiveFile(String fileName) throws IOException {
 		InputStream is;
 		DataInputStream din;
 		FileOutputStream out;
 		BufferedOutputStream bos;
-		 
+		
+		send("iwtraf :(");
+		
 		try {
 			is = s.getInputStream();
 		    din = new DataInputStream(is);

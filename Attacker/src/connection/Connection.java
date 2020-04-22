@@ -46,8 +46,6 @@ public class Connection {
 	}
 	
 	protected void send(File file) throws IOException {
-		send(file.getName());
-		
 		int lenght = (int) file.length();
 		send(String.valueOf(lenght));
 		
