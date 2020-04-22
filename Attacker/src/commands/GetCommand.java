@@ -30,23 +30,7 @@ public class GetCommand extends Command{
 		System.out.println(response);
 		
 		if(response.contains("File compressed")) {
-			Thread t = new Thread() {
-		    	public void run() {
-		    		Connection temp = null;
-		    		String fileName;
-			    	try {
-			    		do {
-			    			temp = server.connect();
-			    			fileName = temp.receive();
-			    		}while(fileName.equals("hello"));
-			    		temp.receive(fileName);
-			    	}catch(IOException e1){
-			    		try{temp.end();}catch(IOException e2) {};
-			    	}
-		    	}
-		    };
-			t.start();
-			t.join();
+			server.receiveFile();
 		}
 	}
 }

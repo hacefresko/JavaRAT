@@ -2,7 +2,7 @@ package commands;
 
 import java.io.IOException;
 
-import control.Controller;
+import connection.Controller;
 
 public class CommandManager {
 	private static Command[] commands = {new EndCommand(), new GetCommand()};

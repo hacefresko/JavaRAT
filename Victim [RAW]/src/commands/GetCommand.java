@@ -10,7 +10,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipOutputStream;
 
-import control.Controller;
+import connection.Controller;
 
 public class GetCommand extends Command{
 	private String _fileName;

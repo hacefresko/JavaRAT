@@ -24,6 +24,16 @@ public class Connection {
 		dout = new DataOutputStream(s.getOutputStream());
 	}
 	
+	public void end() throws IOException {
+		dout.close();
+		din.close();
+		s.close();
+	}
+	
+	public boolean connectionIsOpen() {
+		return !s.isClosed();
+	}
+	
 	public String send(String str) throws IOException {
 		dout.writeUTF(str);
 		dout.flush();
@@ -31,7 +41,11 @@ public class Connection {
 		return din.readUTF();
 	}
 	
-	public void send(File file) throws IOException {
+	public String receive() throws IOException {
+		return din.readUTF();
+	}
+	
+	protected void send(File file) throws IOException {
 		send(file.getName());
 		
 		int lenght = (int) file.length();
@@ -52,11 +66,7 @@ public class Connection {
         bin.close();
 	}
 	
-	public String receive() throws IOException {
-		return din.readUTF();
-	}
-	
-	public void receive(String fileName) throws IOException {
+	protected void receive(String fileName) throws IOException {
 		InputStream is;
 		DataInputStream din;
 		FileOutputStream out;
@@ -100,16 +110,6 @@ public class Connection {
 	    is.close();
 		out.close();
 		bos.close();
-	}
-	
-	public void end() throws IOException {
-		dout.close();
-		din.close();
-		s.close();
-	}
-	
-	public boolean connectionIsOpen() {
-		return !s.isClosed();
 	}
 	
 	public String getSysInfo() throws IOException {

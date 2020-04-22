@@ -1,4 +1,4 @@
-package control;
+package connection;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,7 +7,6 @@ import com.profesorfalken.jpowershell.PowerShell;
 import com.profesorfalken.jpowershell.PowerShellResponse;
 
 import commands.CommandManager;
-import connection.Client;
 
 public class Controller {
 	private PowerShell powerShell;

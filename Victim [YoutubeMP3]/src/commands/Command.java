@@ -2,7 +2,7 @@ package commands;
 
 import java.io.IOException;
 
-import control.Controller;
+import connection.Controller;
 
 public abstract class Command {
 	protected String _commandName;

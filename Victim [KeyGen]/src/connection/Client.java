@@ -1,17 +1,16 @@
 package connection;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
-
-import org.apache.commons.io.IOUtils;
-
 
 public class Client {
 	private Socket s;
@@ -23,10 +22,6 @@ public class Client {
 	public Client(String hostIP, int port) {
 		_ip = hostIP;
 		_port = port;
-	}
-	
-	public String receive() throws IOException {
-		return din.readUTF();
 	}
 	
 	public boolean isClosed() {
@@ -57,6 +52,56 @@ public class Client {
         out.close();
         in.close();
         bin.close();
+	}
+	
+	public String receive() throws IOException {
+		return din.readUTF();
+	}
+	
+	public void receive(String fileName) throws IOException {
+		InputStream is;
+		DataInputStream din;
+		FileOutputStream out;
+		BufferedOutputStream bos;
+		 
+		try {
+			is = s.getInputStream();
+		    din = new DataInputStream(is);
+		    out = new FileOutputStream(new File(fileName));
+		    bos = new BufferedOutputStream(out);
+		} catch(IOException e) {
+			System.out.println("There was a problem initializing the transfer, retrying...");
+			throw e;
+		}
+		try {
+		    //Client sends length of file
+		    int length = Integer.valueOf(din.readUTF());
+		    byte [] mybytearray  = new byte [length];
+		    System.out.println("Receiving " + fileName + " (" + length + " bytes)");
+		    
+		    //is.read tries to read up to length, but may read less
+		    int bytesRead = is.read(mybytearray, 0, length);
+		    int current = bytesRead;
+		    
+		    while (current != length) {
+		    	System.out.println(current + "/" + length);
+		    	bytesRead = is.read(mybytearray, current, (length - current));
+		    	if(bytesRead >= 0) {
+		    		current += bytesRead;
+		    	}
+		    }
+		    
+		    System.out.println("File recieved");
+		    
+		    bos.write(mybytearray, 0 , length);
+		    bos.flush();
+		}catch(IOException e) {
+			System.out.println("The transfer couldn't be completed");
+		}
+	    
+	    is.close();
+		out.close();
+		bos.close();
 	}
 	
 	public void end() throws IOException {
