@@ -58,7 +58,13 @@ public class Connection {
         bin.read(mybytearray, 0, mybytearray.length);
         out.write(mybytearray,0, mybytearray.length);
         
-        System.out.println(din.readUTF());
+        String response;
+        do {
+        	response = din.readUTF();
+        	System.out.println(response);
+        }while(!response.equals("Transfer completed") || !response.contains("Error"));
+        
+        
         
         //out.close() directly shuts down the socket
         out.close();
@@ -78,7 +84,7 @@ public class Connection {
 		    out = new FileOutputStream(new File(fileName));
 		    bos = new BufferedOutputStream(out);
 		} catch(IOException e) {
-			System.out.println("There was a problem initializing the transfer, retrying...");
+			System.out.println("Error: There was a problem initializing the transfer, retrying...");
 			throw e;
 		}
 		try {
@@ -99,12 +105,12 @@ public class Connection {
 		    	}
 		    }
 		    
-		    System.out.println("File recieved");
+		    System.out.println("Transfer completed");
 		    
 		    bos.write(mybytearray, 0 , length);
 		    bos.flush();
 		}catch(IOException e) {
-			System.out.println("The transfer couldn't be completed");
+			System.out.println("Error: The transfer couldn't be completed");
 		}
 	    
 	    is.close();

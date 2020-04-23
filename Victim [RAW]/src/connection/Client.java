@@ -74,19 +74,22 @@ public class Client {
 		    out = new FileOutputStream(new File(fileName));
 		    bos = new BufferedOutputStream(out);
 		} catch(IOException e) {
-			send("There was a problem initializing the transfer");
+			send("Error: There was a problem initializing the transfer");
 			throw e;
 		}
 		try {
-		    //Client sends length of file
+		    //Server sends length of file
 		    int length = Integer.valueOf(din.readUTF());
 		    byte [] mybytearray  = new byte [length];
+		    
+		    send("Sending " + fileName + " (" + length + " bytes)");
 		    
 		    //is.read tries to read up to length, but may read less
 		    int bytesRead = is.read(mybytearray, 0, length);
 		    int current = bytesRead;
 		    
 		    while (current != length) {
+		    	send(current + "/" + length);
 		    	bytesRead = is.read(mybytearray, current, (length - current));
 		    	if(bytesRead >= 0) {
 		    		current += bytesRead;
@@ -98,7 +101,7 @@ public class Client {
 		    
 		    send("Transfer completed");
 		}catch(IOException e) {
-			send("The transfer couldn't be completed");
+			send("Error: The transfer couldn't be completed");
 		}
 	    
 	    is.close();
