@@ -54,17 +54,31 @@ public class Controller {
 		}
 	}
 	
+	public void receiveFile(String fileName) {
+		Thread t = new Thread() {
+			public void run() {
+				try {
+					Client temporary = new Client(_ip, _port);
+					temporary.reset();
+					temporary.receiveFile(fileName);
+					temporary.end();
+				}
+				catch(IOException e) {}
+			}
+		};
+		t.start();
+		try{t.join();} catch (InterruptedException e) {}
+	}
+	
 	public void sendFile(File file) throws IOException {
 		Thread t = new Thread() {
 			public void run() {
 				try {
 					Client temporary = new Client(_ip, _port);
 					temporary.reset();
-					temporary.send(file);
+					temporary.sendFile(file);
 					temporary.end();
-				}catch(IOException e) {
-					System.out.println(e.getMessage());
-				}
+				}catch(IOException e) {}
 			}
 		};
 		
