@@ -30,7 +30,7 @@ public class Main {
 				
 			while(mainConnection.connectionIsOpen()) {
 				try {
-					System.out.print("\n\n> ");
+					System.out.print("\n> ");
 					String command = in.nextLine();
 					CommandManager.parseCommand(command, mainConnection, server);
 				}catch(IOException | InterruptedException e){

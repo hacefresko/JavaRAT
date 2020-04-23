@@ -31,7 +31,7 @@ public class SendCommand extends Command{
 		File fileToSend = new File(_fileName);
 		
 		if(fileToSend.exists()) {
-			System.out.println(con.send(_command));
+			con.send(_command);
 			server.sendFile(fileToSend);
 		}
 		else {
