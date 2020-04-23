@@ -47,7 +47,7 @@ public class Connection {
 	
 	protected void send(File file) throws IOException {
 		int lenght = (int) file.length();
-		send(String.valueOf(lenght));
+		dout.writeUTF(String.valueOf(lenght));
 		
 		byte [] mybytearray  = new byte [(int)file.length()];
 		
@@ -57,6 +57,8 @@ public class Connection {
         
         bin.read(mybytearray, 0, mybytearray.length);
         out.write(mybytearray,0, mybytearray.length);
+        
+        System.out.println(din.readUTF());
         
         //out.close() directly shuts down the socket
         out.close();

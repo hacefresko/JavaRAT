@@ -24,6 +24,7 @@ public class Server {
 		    		do {
 		    			temp = connect();
 		    			fileName = temp.receive();
+		    			//Waiting for auth as a sender socket (not connecting with hello)
 		    		}while(fileName.equals("hello"));
 		    		temp.receive(fileName);
 		    	}catch(IOException e1){
@@ -44,7 +45,8 @@ public class Server {
 		    		do {
 		    			temp = connect();
 		    			hello = temp.receive();
-		    		}while(hello.equals("iwtraf :("));
+		    		//Waiting for auth as a receiver socket (not connecting with hello)
+		    		}while(hello.equals("hello"));
 		    		temp.send(file);
 		    	}catch(IOException e1){
 		    		try{temp.end();}catch(IOException e2) {};

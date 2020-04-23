@@ -34,6 +34,7 @@ public class Client {
 	}
 	
 	public void sendFile(File file) throws IOException {
+		// Auth to identify as a sender socket
 		send(file.getName());
 		
 		int lenght = (int) file.length();
@@ -64,6 +65,7 @@ public class Client {
 		FileOutputStream out;
 		BufferedOutputStream bos;
 		
+		//Auth to identify as a receiver socket
 		send("iwtraf :(");
 		
 		try {
@@ -72,33 +74,31 @@ public class Client {
 		    out = new FileOutputStream(new File(fileName));
 		    bos = new BufferedOutputStream(out);
 		} catch(IOException e) {
-			System.out.println("There was a problem initializing the transfer, retrying...");
+			send("There was a problem initializing the transfer");
 			throw e;
 		}
 		try {
 		    //Client sends length of file
 		    int length = Integer.valueOf(din.readUTF());
 		    byte [] mybytearray  = new byte [length];
-		    System.out.println("Receiving " + fileName + " (" + length + " bytes)");
 		    
 		    //is.read tries to read up to length, but may read less
 		    int bytesRead = is.read(mybytearray, 0, length);
 		    int current = bytesRead;
 		    
 		    while (current != length) {
-		    	System.out.println(current + "/" + length);
 		    	bytesRead = is.read(mybytearray, current, (length - current));
 		    	if(bytesRead >= 0) {
 		    		current += bytesRead;
 		    	}
 		    }
 		    
-		    System.out.println("File recieved");
-		    
 		    bos.write(mybytearray, 0 , length);
 		    bos.flush();
+		    
+		    send("Transfer completed");
 		}catch(IOException e) {
-			System.out.println("The transfer couldn't be completed");
+			send("The transfer couldn't be completed");
 		}
 	    
 	    is.close();

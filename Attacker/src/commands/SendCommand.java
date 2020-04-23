@@ -11,7 +11,7 @@ public class SendCommand extends Command{
 	private String _command;
 	
 	public SendCommand() {
-		super("send", "\"file/dir\"", "sends the specified file/dir to the victim's machine and uncompress it");
+		super("send", "\"file.zip\"", "sends the specified zip file to the victim's machine and extracts it");
 	}
 
 	protected boolean parse(String command) {
@@ -31,7 +31,7 @@ public class SendCommand extends Command{
 		File fileToSend = new File(_fileName);
 		
 		if(fileToSend.exists()) {
-			con.send(_command);
+			System.out.println(con.send(_command));
 			server.sendFile(fileToSend);
 		}
 		else {

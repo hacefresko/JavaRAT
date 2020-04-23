@@ -28,7 +28,9 @@ public class SendCommand extends Command{
 	
 	@Override
 	public void execute(Controller ctrl) throws IOException {
+		ctrl.sendMsg("Sending " + _fileName);
 		ctrl.receiveFile(_fileName);
+		//Extract file
 	}
 
 }
