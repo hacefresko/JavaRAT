@@ -108,7 +108,7 @@ public class Controller {
 		client.connect();
 	}
 	
-	private void trsetUpPowerShellSession() {
+	private void setUpPowerShellSession() {
 		powerShell = PowerShell.openSession();
 		
 		powerShell.executeCommand("Set-ExecutionPolicy Unrestricted -Scope Process");
