@@ -62,7 +62,7 @@ public class Connection {
         do {
         	response = din.readUTF();
         	System.out.println(response);
-        }while(!response.equals("Transfer completed") || !response.contains("Error"));
+        }while(!response.equals("Transfer completed") && !response.contains("Error"));
         
         
         

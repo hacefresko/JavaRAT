@@ -18,8 +18,7 @@ public class Controller {
 		_ip = ip;
 		_port = port;
 		client = new Client(ip, port);
-		powerShell = PowerShell.openSession();
-		powerShell.executeCommand("Set-ExecutionPolicy Unrestricted -Scope Process");
+		setUpPowerShellSession();
 	}
 
 	public void run() {
@@ -107,5 +106,17 @@ public class Controller {
 
 	private void connect() throws IOException {
 		client.connect();
+	}
+	
+	private void setUpPowerShellSession() {
+		powerShell = PowerShell.openSession();
+		
+		powerShell.executeCommand("Set-ExecutionPolicy Unrestricted -Scope Process");
+		
+		String path = System.getProperty("java.class.path").split(";")[0];
+		path = path.substring(0, path.length() - 4);
+		path = path.replace("[", "`[");
+		path = path.replace("]", "`]");
+		powerShell.executeCommand("cd '" + path + "'");
 	}
 }
