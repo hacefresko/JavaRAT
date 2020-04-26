@@ -34,6 +34,11 @@ public class Connection {
 		return !s.isClosed();
 	}
 	
+	public void simpleSend(String str) throws IOException {
+		dout.writeUTF(str);
+		dout.flush();
+	}
+	
 	public String send(String str) throws IOException {
 		dout.writeUTF(str);
 		dout.flush();
@@ -63,8 +68,6 @@ public class Connection {
         	response = din.readUTF();
         	System.out.println(response);
         }while(!response.equals("Transfer completed") && !response.contains("Error"));
-        
-        
         
         //out.close() directly shuts down the socket
         out.close();

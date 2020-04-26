@@ -28,15 +28,7 @@ public class SendCommand extends Command{
 	
 	@Override
 	public void execute(Controller ctrl) throws IOException {
-// Dont have acces to writ where ever we want
-//		String path = ctrl.execute("Get-Location");
-//		path = path.split("\n")[3];
-//		_fileName = path + "\\" + _fileName;
-		
-		//Just a response to match send method from Server
-		ctrl.sendMsg("ok");
 		ctrl.receiveFile(_fileName);
-		//Extract file
 	}
 
 }

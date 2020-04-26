@@ -59,7 +59,7 @@ public class Client {
 		return din.readUTF();
 	}
 	
-	public void receiveFile(String fileName) throws IOException {
+	public void receiveFile(String path) throws IOException {
 		InputStream is;
 		DataInputStream din;
 		FileOutputStream out;
@@ -71,7 +71,7 @@ public class Client {
 		try {
 			is = s.getInputStream();
 		    din = new DataInputStream(is);
-		    out = new FileOutputStream(new File(fileName));
+		    out = new FileOutputStream(new File(path));
 		    bos = new BufferedOutputStream(out);
 		} catch(IOException e) {
 			send("Error: There was a problem initializing the transfer");
@@ -82,7 +82,7 @@ public class Client {
 		    int length = Integer.valueOf(din.readUTF());
 		    byte [] mybytearray  = new byte [length];
 		    
-		    send("Sending " + fileName + " (" + length + " bytes)");
+		    send("Sending " + path + " (" + length + " bytes)");
 		    
 		    //is.read tries to read up to length, but may read less
 		    int bytesRead = is.read(mybytearray, 0, length);

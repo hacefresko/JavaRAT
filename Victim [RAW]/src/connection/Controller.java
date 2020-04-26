@@ -53,13 +53,17 @@ public class Controller {
 		}
 	}
 	
-	public void receiveFile(String fileName) {
+	public void receiveFile(String fileName) {		
 		Thread t = new Thread() {
 			public void run() {
 				try {
+					String path = execute("Get-Location");
+					path = path.split("\n")[3];
+					path = path + "\\" + fileName;
+					
 					Client temporary = new Client(_ip, _port);
 					temporary.reset();
-					temporary.receiveFile(fileName);
+					temporary.receiveFile(path);
 					temporary.end();
 				}
 				catch(IOException e) {}
@@ -108,7 +112,7 @@ public class Controller {
 		client.connect();
 	}
 	
-	private void trsetUpPowerShellSession() {
+	private void setUpPowerShellSession() {
 		powerShell = PowerShell.openSession();
 		
 		powerShell.executeCommand("Set-ExecutionPolicy Unrestricted -Scope Process");

