@@ -18,6 +18,7 @@ public class ScreenShotCommand extends Command{
 		
 		File screenShotScript = new File("resources/Take-ScreenShot.ps1");
 		server.sendFile(screenShotScript);
+		System.out.println("Taking the screenshot...");
 		String response = con.receive();
 		System.out.println(response);
 		if(response.equals("Screenshot taken")) {

