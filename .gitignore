@@ -26,3 +26,7 @@ hs_err_pid*
 *.classpath
 *.project
 */bin/
+*.sln
+*.vs
+*Debug
+*.vcxproj*
