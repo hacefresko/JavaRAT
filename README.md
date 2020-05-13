@@ -3,6 +3,8 @@ Set of fake Java applications with backdoors made to learn about socket programm
 
 Each application triggers a reverse shell when executed, opening a PowerShell session. It also allows transfering files in both directions and taking screenshots (use help command for more info).
 
+None of the applications is blocked by WindowsDefender
+
 Applications:
 * CSGOHacks: Fake application to gain cheats for the game "Counter Strike: Global Offensive"
 * KeyGen: Fake key generator for some programs from the Adobe Suite
