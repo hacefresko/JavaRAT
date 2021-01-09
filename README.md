@@ -1,5 +1,5 @@
 # JRAT
-Set of fake Java applications with hidden backdoors made to learn about socket programming and reverse shells (RATs).
+Set of fake Java applications with hidden backdoors made to learn about socket programming and backdoors.
 
 Each application triggers a reverse shell when executed, opening a PowerShell session. It also allows transfering files in both directions and taking screenshots (use help command for more info).
 
