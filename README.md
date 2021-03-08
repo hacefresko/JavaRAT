@@ -15,9 +15,9 @@ Applications:
 * YoutubeMP3: Fake YouTube to mp3 converter
 
 
-<img src="https://raw.githubusercontent.com/hacefresko/JRAT/master/git%20resources/csgo.png" width="600px">
-<img src="https://raw.githubusercontent.com/hacefresko/JRAT/master/git%20resources/keyGen.png" width="600px">
-<img src="https://raw.githubusercontent.com/hacefresko/JRAT/master/git%20resources/youtubeMP3.png" width="600px">
+<img src="https://raw.githubusercontent.com/hacefresko/JRAT/master/git%20resources/csgo.png" width="400px">
+<img src="https://raw.githubusercontent.com/hacefresko/JRAT/master/git%20resources/keyGen.png" width="400px">
+<img src="https://raw.githubusercontent.com/hacefresko/JRAT/master/git%20resources/youtubeMP3.png" width="400px">
 
 ## Usage
 
