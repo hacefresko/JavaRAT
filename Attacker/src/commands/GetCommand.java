@@ -1,7 +1,6 @@
 package commands;
 
 import java.io.IOException;
-import java.net.Socket;
 
 import connection.Connection;
 import connection.Server;
