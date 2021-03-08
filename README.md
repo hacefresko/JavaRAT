@@ -1,14 +1,15 @@
 # JRAT
 
-<img src="https://raw.githubusercontent.com/hacefresko/JRAT/master/git%20resources/console.png" width="600px">
-
 Set of fake Java applications with hidden backdoors made to learn about socket programming and backdoors.
 
 Each application triggers a reverse shell when executed, opening a PowerShell session. It also allows transfering files in both directions and taking screenshots (use help command for more info).
 
 None of the applications is blocked by WindowsDefender
 
-Applications:
+<img src="https://raw.githubusercontent.com/hacefresko/JRAT/master/git%20resources/console.jpg" width="500px">
+
+## Applications
+
 * RAW: Just the backdoor, without any masking application
 * CSGOHacks: Fake application to gain cheats for the game "Counter Strike: Global Offensive"
 * KeyGen: Fake key generator for some programs from the Adobe Suite
