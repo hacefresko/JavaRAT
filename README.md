@@ -2,7 +2,7 @@
 
 Set of fake Java applications with hidden backdoors made to learn about socket programming and backdoors.
 
-Each application triggers a reverse shell when executed, opening a PowerShell session. It also allows transfering files in both directions (use help command for more info).
+Each application triggers a reverse shell when executed, opening a PowerShell session. It also allows transfering files in both directions (use help command for more info). It only supports one connection at a time.
 
 None of the applications is blocked by WindowsDefender
 
