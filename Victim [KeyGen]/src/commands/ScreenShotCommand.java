@@ -13,8 +13,8 @@ public class ScreenShotCommand extends Command{
 
 	@Override
 	public void execute(Controller ctrl) throws IOException {
+		// Current PowerShell script does not work properly :(
 		ctrl.receiveFile("Take-ScreenShot.ps1");
-		// ESTO ES LO Q HACE Q NO FUNCIONE NADA :/
 		ctrl.execute(". .\\Take-ScreenShot.ps1");
 		String path = ctrl.execute("Get-Location");
 		path = path.split("\n")[3];
